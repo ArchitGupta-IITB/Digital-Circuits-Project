@@ -1,4 +1,4 @@
-# Digital-Circuits-Project
+# Digital-Systems-Project
 This is a project for the course EE224
 
 
