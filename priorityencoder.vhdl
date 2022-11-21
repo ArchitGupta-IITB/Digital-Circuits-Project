@@ -7,6 +7,7 @@ end entity pen;
 
 architecture pen_bhv of pen is
 begin
+ 	--I have assumed the lower priority bits to be 'don't care' conditions
  	if(i7 = '0' and i6 = '0' and i5 = '0' and i4 = '0' and i3 = '0' and i2 = '0' and i1 = '0' and i0 = '1') then
 		o2 <= '0';
 		o1 <= '0';
