@@ -8,7 +8,7 @@ entity ALU is
 		  alu_control: in std_logic_vector(1 downto 0);
         op: out std_logic_vector(15 downto 0);
 		  C: out std_logic;
-		  Z: out std_logic
+		  Z: out std_logic;
     ) ;
 end ALU;
 
@@ -42,10 +42,9 @@ begin
 		C <= C_init;
 		x <= op1(0);
 		for i in 1 to 15 loop
-			x <= x or op1(i)
+			x <= x or op1(i);
 		end loop;
 	
-		Z <= not x
-			
+		Z <= not x;
 	end process ;
 end a1 ;
