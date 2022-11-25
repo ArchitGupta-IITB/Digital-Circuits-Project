@@ -7,7 +7,7 @@ entity RF is
         RF_AD_OUT1 : in std_logic_vector(2 downto 0);
         RF_AD_OUT2 : in std_logic_vector(2 downto 0);
         RF_AD_IN : in std_logic_vector(2 downto 0);
-        reset: in std_logic;
+        RF_reset: in std_logic;
         -- input data
         RF_DA_IN : in std_logic_vector(15 downto 0);
 
@@ -31,9 +31,9 @@ architecture arch of RF is
     signal RF_DA_temp2 : std_logic_vector(15 downto 0);
 begin
     --writing to register when write_enable is set
-    write_proc: process(RF_AD_IN,RF_WR,reset)
+    write_proc: process(RF_AD_IN,RF_WR,RF_reset)
     begin
-	     if(reset = '1') then 
+	     if(RF_reset = '1') then 
             R0 <= "0000000000000000";
             R1 <= "0000000000000000";
             R2 <= "0000000000000000";

@@ -36,7 +36,8 @@ case state_present is
         opcode = "0100" or opcode = "0101" or opcode = "1100") -- Fill the code here
     state_next<=s2;
     elsif(opcode ="0011" ) --FILL OTHER STATES HERE
-        state_next<=s7;
+
+    state_next<=s7;
     elsif(opcode = "1000")
         state_next<=s12;
     elsif(opcode ="1001")
@@ -160,17 +161,5 @@ end process;
 
 -------------------------
 ---------Fill rest of the code here---------
-output_proc:process(state_present) ------- output process after this which will give
--------the output based on the present state and input (Mealy machine)
-begin
-case y_present is
-when s3=>
-outp<='0';
-when others=>
-outp<='1';
-end case;
-end process;
-
-output <=outp;
 
 end bhv;

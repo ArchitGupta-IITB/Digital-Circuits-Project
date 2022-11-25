@@ -1,59 +1,28 @@
 library ieee;
 use iee.std_logic_1164.all;
 
-entity pen is
-	port(o2, o1, o0: out std_logic; i: in std_logic_vector(7 downto 0));
-end entity pen;
+entity PEN is
+	port( PEN_I: in std_logic_vector(7 downto 0);PEN_O: out std_logic(2 downto 0));
+end entity PEN;
 
-architecture pen_bhv of pen is
+architecture PEN_bhv of PEN is
+
 begin
- 	--I have assumed the lower priority bits to be 'don't care' conditions
- 	if(i(7) = '0' and i(6) = '0' and i(5) = '0' and i(4) = '0' and i(3) = '0' and i(2) = '0' and i(1) = '0' and i(0) = '1') then
-		o2 <= '0';
-		o1 <= '0';
-		o0 <= '0';
-	end if;
-	
-	if(i(7) = '0' and i(6) = '0' and i(5) = '0' and i(4) = '0' and i(3) = '0' and i(2) = '0' and i(1) = '1') then
-		o2 <= '0';
-		o1 <= '0';
-		o0 <= '1';
-	end if;
-	
-	if(i(7) = '0' and i(6) = '0' and i(5) = '0' and i(4) = '0' and i(3) = '0' and i(2) = '1') then
-		o2 <= '0';
-		o1 <= '1';
-		o0 <= '0';
-	end if;
-	
-	if(i(7) = '0' and i(6) = '0' and i(5) = '0' and i(4) = '0' and i(3) = '1') then
-		o2 <= '0';
-		o1 <= '1';
-		o0 <= '1';
-	end if;
-	
-	if(i(7) = '0' and i(6) = '0' and i(5) = '0' and i(4) = '1') then
-		o2 <= '1';
-		o1 <= '0';
-		o0 <= '0';
-	end if;
-	
-	if(i(7) = '0' and i(6) = '0' and i(5) = '1') then
-		o2 <= '1';
-		o1 <= '0';
-		o0 <= '1';
-	end if;
-	
-	if(i(7) = '0' and i(6) = '1') then
-		o2 <= '1';
-		o1 <= '1';
-		o0 <= '0';
-	end if;
-	
-	if(i(7) = '1') then
-		o2 <= '1';
-		o1 <= '1';
-		o0 <= '1';
-	end if;
-    
+ if( pen_i(7)='1')  
+	pen_o<="000";
+ elsif( pen_i(6)='1')  
+	pen_o<="001";
+ elsif( pen_i(5)='1')  
+   pen_o<="010";
+ elsif(pen_i(4)='1')  
+   pen_o<="011";
+ elsif(pen_i(3)='1')  
+   pen_o<="100";
+ elsif(pen_i(2)='1')  
+   pen_o<="101";
+ elsif(pen_i(1)='1')  
+	pen_o<="110";
+ elsif(pen_i(0)='1')  
+   pen_o<="111";
+ end if;    
 end architecture pen_bhv;
