@@ -7,8 +7,8 @@ entity ALUA_MUX is
         S_ALU_A : in std_logic;
 
         -- input data
-        RF_DA_OUT1_ALUA : in std_logic_vector(15 downto 0);
-        T1_ALUA : in std_logic_vector(15 downto 0);
+        RF_DA_OUT1 : in std_logic_vector(15 downto 0);
+        T1 : in std_logic_vector(15 downto 0);
 
         --output data
         ALUA_IN : out std_logic_vector(15 downto 0)
@@ -20,14 +20,14 @@ architecture arch of ALUA_MUX is
     signal ALUA_IN_TEMP: std_logic_vector(15 downto 0);
 begin
     --writing to register when write_enable is set
-    MUX: process(RF_DA_OUT1_ALUA, T1_ALUA, S_ALU_A)
+    MUX: process(RF_DA_OUT1, T1, S_ALU_A)
     
     begin
 	case S_ALU_A is
          when '0' =>
-         ALUA_IN_TEMP <= RF_DA_OUT1_ALUA;
+         ALUA_IN_TEMP <= RF_DA_OUT1;
          when '1' =>
-         ALUA_IN_TEMP <= T1_ALUA;
+         ALUA_IN_TEMP <= T1;
     end case;    
     end process MUX;
 	ALUA_IN <= ALUA_IN_TEMP; 

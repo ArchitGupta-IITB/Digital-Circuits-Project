@@ -32,12 +32,14 @@ state_transition_proc:process(state_present)
 begin
 case state_present is
     when s1=>
+    
+    
+    
     if(opcode = "0000" or opcode = "0010" or opcode = "0001"
         opcode = "0100" or opcode = "0101" or opcode = "1100") -- Fill the code here
-    state_next<=s2;
+        state_next<=s2;
     elsif(opcode ="0011" ) --FILL OTHER STATES HERE
-
-    state_next<=s7;
+        state_next<=s7;
     elsif(opcode = "1000")
         state_next<=s12;
     elsif(opcode ="1001")

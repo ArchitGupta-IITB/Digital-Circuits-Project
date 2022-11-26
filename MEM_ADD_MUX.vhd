@@ -7,9 +7,9 @@ entity MEM_ADD_MUX is
         S_MEM_ADD : in std_logic_vector(1 downto 0);
 
         -- input data
-        RF_DA_OUT1_MEM_ADD : in std_logic_vector(15 downto 0);
-        T1_MEM_ADD: in std_logic_vector(15 downto 0);
-        RF_DA_OUT2_MEM_ADD  : in std_logic_vector(15 downto 0);
+        RF_DA_OUT1 : in std_logic_vector(15 downto 0);
+        T1: in std_logic_vector(15 downto 0);
+        RF_DA_OUT2 : in std_logic_vector(15 downto 0);
 
         --output data
         MEM_ADD_IN : out std_logic_vector(15 downto 0)
@@ -21,16 +21,16 @@ architecture arch of MEM_ADD_MUX is
     signal MEM_ADD_IN_TEMP: std_logic_vector(15 downto 0);
 begin
     --writing to register when write_enable is set
-    MUX: process(S_MEM_ADD, RF_DA_OUT1_MEM_ADD, T1_MEM_ADD, RF_DA_OUT2_MEM_ADD)
+    MUX: process(S_MEM_ADD, RF_DA_OUT1, T1, RF_DA_OUT2)
     
     begin
 	case S_MEM_ADD is
          when "00" =>
-         MEM_ADD_IN_TEMP <= RF_DA_OUT1_MEM_ADD;
+         MEM_ADD_IN_TEMP <= RF_DA_OUT1;
          when "01" =>
-         MEM_ADD_IN_TEMP <= T1_MEM_ADD;
+         MEM_ADD_IN_TEMP <= T1;
          when "10" =>
-         MEM_ADD_IN_TEMP <= RF_DA_OUT2_MEM_ADD;
+         MEM_ADD_IN_TEMP <= RF_DA_OUT2;
          
     end case;    
     end process MUX;
