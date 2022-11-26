@@ -12,9 +12,67 @@ type state is (s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13,
                 s14, s15, s16, s17, s18, s19, s20, s21, s22 ); -- Fill other states here
 ---------------Define signals of state type-----------------------
 
+component ALUA_MUX is 
+port(
+    S_ALU_A : in std_logic;
+    RF_DA_OUT1 : in std_logic_vector(15 downto 0);
+    T1 : in std_logic_vector(15 downto 0);ALUA_IN : out std_logic_vector(15 downto 0));
+end component ALUA_MUX;
+
+component ALUB_MUX is 
+    port(
+        --select signal
+        S_ALU_B : in std_logic_vector(1 downto 0);
+
+        -- input data
+        PLUS1 : in std_logic_vector(15 downto 0);
+        T2: in std_logic_vector(15 downto 0);
+        SE16_6: in std_logic_vector(15 downto 0);
+        SE16_9: in std_logic_vector(15 downto 0);
+        --output data
+        ALUB_IN : out std_logic_vector(15 downto 0)
+    );
+end component ALUB_MUX;
+
+component ALU is
+    port (
+        ALU_A: in std_logic_vector(15 downto 0);
+        ALU_B: in std_logic_vector(15 downto 0);
+		alu_control: in std_logic_vector(1 downto 0);
+        ALU_C: out std_logic_vector(15 downto 0);
+		C: out std_logic;
+		Z: out std_logic
+    ) ;
+end component ALU;
+
+component IR_MUX is 
+    port(
+        --select signal
+        S_IR : in std_logic;
+
+        -- input data
+        MEM_DATA_IR: in std_logic_vector(15 downto 0);
+        LU_IR  : in std_logic_vector(15 downto 0);
+
+        --output data
+        IR_IN : out std_logic_vector(15 downto 0)
+
+    );
+end component IR_MUX;
+
+
 signal state_present,state_next: state:=s1;
+signal S_ALU_A, S_IR, S_T2, S_MEM_DATA, S_IR, C, Z: std_logic;
+signal S_ALU_B, S_ALU, S_RF_AD_OUT1, S_RF_DA_IN, S_T1, S_MEM_ADD, alu_control: std_logic_vector(1 downto 0);
+signal S_RF_AD_IN: std_logic_vector(2 downto 0);
+signal ALUA_IN,ALUB_IN, ALU_C, RF_DA_OUT1,T1,T2, SE16_6, SE16_9, IR, MEM_DATA : std_logic_vector(15 downto 0);
+signal PLUS1: std_logic_vector(15 downto 0);
 
 begin
+ALU_A: ALUA_MUX port(S_ALU_A,RF_DA_OUT1,T1,ALUA_IN);
+ALU_B: ALUB_MUX port(S_ALU_B, PLUS1,T2,SE16_6,SE16_9,ALUB_IN);
+ALU_C: ALU port(ALUA_IN, ALUB_IN,alu_control, ALU_C, C, Z);
+IR_M: IR_MUX port(S_IR, MEM_DATA, )
 clock_proc:process(clock,reset)
     begin
 
