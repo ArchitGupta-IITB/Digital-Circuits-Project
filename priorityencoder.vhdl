@@ -1,28 +1,14 @@
 library ieee;
-use iee.std_logic_1164.all;
+use ieee.std_logic_1164.all;
 
 entity PEN is
-	port( PEN_I: in std_logic_vector(7 downto 0);PEN_O: out std_logic(2 downto 0));
-end entity PEN;
+	port( pen_i: in std_logic_vector(7 downto 0);pen_o: out std_logic_vector(2 downto 0));
+end PEN;
 
 architecture PEN_bhv of PEN is
 
 begin
- if( pen_i(7)='1')  
-	pen_o<="000";
- elsif( pen_i(6)='1')  
-	pen_o<="001";
- elsif( pen_i(5)='1')  
-   pen_o<="010";
- elsif(pen_i(4)='1')  
-   pen_o<="011";
- elsif(pen_i(3)='1')  
-   pen_o<="100";
- elsif(pen_i(2)='1')  
-   pen_o<="101";
- elsif(pen_i(1)='1')  
-	pen_o<="110";
- elsif(pen_i(0)='1')  
-   pen_o<="111";
- end if;    
-end architecture pen_bhv;
+	pen_o(2) <= pen_i(0) or pen_i(1) or pen_i(2) or pen_i(3);
+	pen_o(1) <= pen_i(0) or pen_i(1) or pen_i(4) or pen_i(5);
+	pen_o(0) <= pen_i(0) or pen_i(2) or pen_i(4) or pen_i(6);
+end pen_bhv;
