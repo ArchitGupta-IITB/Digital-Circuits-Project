@@ -8,8 +8,8 @@ entity mem_blk is
 		MEM_RD: in std_logic;
 		MEM_WR: in std_logic;
 		clk: in std_logic;
-		MEM_DATA_OUT: out std_logic_vector(15 downto 0);
-	)
+		MEM_DATA_OUT: out std_logic_vector(15 downto 0)
+	);
 end entity mem_blk;
 
 architecture mem_blk_bhv of mem_blk is
