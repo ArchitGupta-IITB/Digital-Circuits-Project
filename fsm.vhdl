@@ -204,6 +204,9 @@ MEM_DA: MEM_DATA_MUX port(S_MEM_DATA,RF_DA_IN,RF_DA_OUT1,MEM_DATA_IN);
 MEM_BL: mem_blk port(MEM_ADD_IN,MEM_DATA_IN,MEM_RD,MEM_WR,MEM_DATA_OUT);
 T1_M: T1_MUX port(S_T1,RF_DA_OUT1,ALU_C,SE16_6,T1);
 T2_M: T2_MUX port(S_T2, RF_DA_OUT2,SE16_6,T2);
+
+RF_AD_OUT2<=IR119;
+
 clock_proc:process(clock,reset)
     begin
 
@@ -228,66 +231,93 @@ case state_present is
     S_MEM_ADD<= "00";
     S_IR<='0';
     if(opcode = "0000" or opcode = "0010" or opcode = "0001"
-        opcode = "0100" or opcode = "0101" or opcode = "1100") -- Fill the code here
+        opcode = "0100" or opcode = "0101" or opcode = "1100") then-- Fill the code here
         state_next<=s2;
-    elsif(opcode ="0011" ) --FILL OTHER STATES HERE
+    elsif(opcode ="0011" ) then--FILL OTHER STATES HERE
         state_next<=s7;
-    elsif(opcode = "1000")
+    elsif(opcode = "1000") then
         state_next<=s12;
-    elsif(opcode ="1001")
+    elsif(opcode ="1001") then
         state_next<=s16;
-    elsif(opcode = "0110")
+    elsif(opcode = "0110") then
         state_next<=s18;
-    elsif(opcode= "0111")
+    elsif(opcode= "0111") then
         state_next<=s22;
     else
         state_next<=s1;
     end if;
 
     when s2=>
-    if(opcode = "0000" or opcode = "0001" or opcode = "0100" or opcode = "0101")
+    S_RF_AD_OUT1<="01";
+    S_T1<="00";
+    if(opcode = "0000" or opcode = "0001") then
         state_next<=s3; -- Fill the code here
-    elsif(opcode = "0010")
+        S_T2<='0';
+    elsif (opcode = "0100" or opcode = "0101") then
+        state_next<=s3;
+        S_T2<='1';
+    elsif(opcode = "0010") then
         state_next<=s5;
-    elsif(opcode = "1100")
+        S_T2<='0';
+    elsif(opcode = "1100") then
         state_next<=s11;
     else
         state_next<=s1;
     
     when s3=>
-    if(opcode = "0000")
+    S_ALU_A<='1';
+    S_ALU_B<="01";
+    S_T1<="01";
+    if(opcode = "0000") then
         state_next<=s4; 
-    elsif(opcode = "0001")
+    elsif(opcode = "0001") then
         state_next<=s6;
-    elsif(opcode = "0100")
+    elsif(opcode = "0100") then
         state_next<=s9;
-    elsif(opcode = "0101")
+    elsif(opcode = "0101") then
         state_next<=s10;
     else
         state_next<=s1;
     
     when s4=>
-        state_next<=s1; 
+        state_next<=s1;
+        S_RF_AD_IN<="001"; 
+        S_RF_DA_IN<="01";
 
     when s5=>
         state_next<=s4;
-    
+        S_ALU_A<='1';
+        S_ALU_A<="01";
+        S_T1<="01";
+
     when s6=>
         state_next<=s1;
-    
+        S_RF_AD_IN<="010";
+        S_RF_DA_IN<="01";
     when s7=>
         state_next<=s8;
-    
+        S_T1<="10";    
     when s8=>
         state_next<=s1;
+        S_RF_AD_IN<="011";
+        S_RF_DA_IN<="01";
 
     when s9=>
         state_next<=s1;
-
+        S_MEM_DATA<='0';
+        S_MEM_ADD<="01";
+        S_RF_DA_IN<="10";
+        S_RF_AD_IN<="011";
     when s10=>
         state_next<=s1;
-    
+        S_RF_AD_OUT1<="10";
+        S_MEM_ADD<="01";
+        S_MEM_DATA<='1';
+
     when s11=>
+        S_T1<="01";
+        S_ALU_B<="01";
+        S_ALU_A<='1';
         if( z_flag = '1')
             state_next<=s12;
         else
@@ -295,6 +325,12 @@ case state_present is
         end if;
     
     when s12=>
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        S_RF_AD_OUT1<="00";
+        S_RF_AD_IN<="000";
+        S_RF_DA_IN<= "00";
+
         if(opcode = "1100")
             state_next<=s13;
         elsif(opcode = "1000")
@@ -305,7 +341,10 @@ case state_present is
 
     when s13=>
         state_next<=s1;
-    
+        S_ALU_A<= '0';
+        S_ALU_B<="10";
+        S_RF_AD_OUT1<="00";
+        ``
     when s14=>
         state_next<=s15;
     
