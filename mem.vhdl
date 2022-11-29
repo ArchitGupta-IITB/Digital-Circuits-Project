@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity mem_blk is
 	port(
@@ -14,16 +15,15 @@ end entity mem_blk;
 
 architecture mem_blk_bhv of mem_blk is
 	--signals corresponding to 16-bit contents of 2^16 memory addresses need to be defined here
-	signal MEM0: std_logic_vector(15 downto 0);
+	type mem_vector is array (65535 downto 0) of std_logic_vector(15 downto 0);
+	signal MEM: mem_vector;
 	signal MEM_DATA_TEMP: std_logic_vector(15 downto 0);
 begin
 	write_proc: process(MEM_ADD, MEM_WR, clk)
 	begin
 		if(clk'event and clk = '0') then --writing at negative edge in accordance with standard set in RF
 			if(MEM_WR = '1') then
-				if(MEM_ADD = "0000000000000000") then
-					MEM0 <= MEM_DATA_IN;
-				end if;
+				MEM(to_integer(unsigned(MEM_ADD))) <= MEM_DATA_IN;
 				--if statements need to be added for the other addresses
 			end if;
 		end if;
@@ -33,14 +33,10 @@ begin
 	begin
 		if(clk'event and clk = '0') then
 			if(MEM_RD = '1') then
-				if(MEM_ADD = "0000000000000000") then
-					MEM_DATA_TEMP <= MEM0;
-				end if;
+				MEM_DATA_OUT <= MEM(to_integer(unsigned(MEM_ADD)));
 				--if statements need to be added for the other addresses
 			end if;
 		end if;
 	end process;
-	
-	MEM_DATA_OUT <= MEM_DATA_TEMP when MEM_RD = '1';
 end architecture mem_blk_bhv;
 		
