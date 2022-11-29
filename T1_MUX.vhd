@@ -31,7 +31,8 @@ begin
          T1_IN_TEMP <= ALUC_T1;
          when "10" =>
          T1_IN_TEMP <= SE16_6_T1;
-         
+         when others => 
+			T1_IN_TEMP <= RF_DA_OUT1_T1;
     end case;    
     end process MUX;
 	T1_IN <= T1_IN_TEMP; 

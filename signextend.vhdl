@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 entity se6 is  --6-bit to 16-bit extender
-	port(i: in std_logic_vector(5 downto 0); o: out std_logic_vector(15 downto 0);
+	port(PEN_I: in std_logic_vector(5 downto 0); o: out std_logic_vector(15 downto 0));
 end entity se6;
 
 architecture se6_bhv of se6 is
@@ -29,7 +29,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 entity se9 is  --9-bit to 16-bit extender
-	port(i: in std_logic_vector(8 downto 0); o: out std_logic_vector(15 downto 0));
+	port(PEN_I: in std_logic_vector(8 downto 0); o: out std_logic_vector(15 downto 0));
 end entity se9;
 
 architecture se9_bhv of se9 is

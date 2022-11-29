@@ -31,7 +31,8 @@ begin
          MEM_ADD_IN_TEMP <= T1;
          when "10" =>
          MEM_ADD_IN_TEMP <= RF_DA_OUT2;
-         
+         when others =>
+			MEM_ADD_IN_TEMP <= RF_DA_OUT1;
     end case;    
     end process MUX;
 	MEM_ADD_IN <= MEM_ADD_IN_TEMP; 

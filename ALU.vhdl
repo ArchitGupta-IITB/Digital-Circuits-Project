@@ -25,7 +25,7 @@ begin
 			C_init<='0';
 			for i in 0 to 15 loop
 			op1(i)<= ALU_A(i) XOR ALU_B(i) XOR C_init;
-			C_init <= ( ALU_A(i) AND ALU_B(i) ) OR (C_init AND (A(i) XOR B(i)));
+			C_init <= ( ALU_A(i) AND ALU_B(i) ) OR (C_init AND (ALU_A(i) XOR ALU_B(i)));
 			end loop;
 			
 		elsif (alu_control = "01") then

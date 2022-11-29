@@ -35,7 +35,8 @@ begin
          RF_AD_IN_TEMP <= IR119;
          when "100" =>
          RF_AD_IN_TEMP <= PEN_O;
-         
+         when others =>
+			RF_AD_IN_TEMP <= "111";
     end case;    
     end process MUX;
 	RF_AD_IN <= RF_AD_IN_TEMP; 

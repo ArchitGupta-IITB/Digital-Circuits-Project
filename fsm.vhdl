@@ -73,6 +73,21 @@ component IR is
 	);
 end component IR;
 
+component MEM_DATA_MUX is 
+    port(
+        --select signal
+        S_MEM_DATA : in std_logic;
+
+        -- input data
+        RF_DA_IN  : in std_logic_vector(15 downto 0);
+        RF_DA_OUT1: in std_logic_vector(15 downto 0);
+
+        --output data
+        MEM_DATA_IN : out std_logic_vector(15 downto 0)
+
+    );
+end component MEM_DATA_MUX;
+
 component MEM_ADD_MUX is 
     port(
         --select signal
@@ -113,7 +128,7 @@ component RF is
         RF_WR : in std_logic;
         --output data
         RF_DA_OUT1 : out std_logic_vector(15 downto 0);
-        RF_DA_OUT2 : out std_logic_vector(15 downto 0);
+        RF_DA_OUT2 : out std_logic_vector(15 downto 0)
     );
 end component RF;
 
@@ -148,6 +163,24 @@ component RF_AD_IN_MUX is
     );
 end component RF_AD_IN_MUX;
 
+
+component RF_DA_IN_MUX is 
+    port(
+        --select signal
+        S_RF_DA_IN : in std_logic_vector(1 downto 0);
+
+        -- input data
+        ALU_C : in std_logic_vector(15 downto 0);
+        T1 : in std_logic_vector(15 downto 0);
+        MEM_DATA: in std_logic_vector(15 downto 0);
+        RF_DA_OUT1: in std_logic_vector(15 downto 0); 
+        --output data
+        RF_DA_IN : out std_logic_vector(15 downto 0)
+
+    );
+end component RF_DA_IN_MUX;
+
+
 component T1_MUX is 
     port(
         --select signal
@@ -181,31 +214,33 @@ end component T2_MUX;
 
 
 signal state_present,state_next: state:=s1;
-signal S_ALU_A, S_IR, S_T2, S_MEM_DATA, S_IR, C, Z, RF_WR,IR_EN,MEM_RD,MEM_WR: std_logic;
+signal S_ALU_A, S_IR, S_T2, S_MEM_DATA, C, Z, RF_WR,IR_EN,MEM_RD,MEM_WR,RF_reset,clk: std_logic;
 signal S_ALU_B, S_ALU, S_RF_AD_OUT1, S_RF_DA_IN, S_T1, S_MEM_ADD, alu_control: std_logic_vector(1 downto 0);
 signal S_RF_AD_IN,RF_AD_OUT1,RF_AD_OUT2,RF_AD_IN, IR_53,IR_86,IR_119,PEN_O: std_logic_vector(2 downto 0);
-signal ALUA_IN,ALUB_IN, ALU_C, RF_DA_OUT1,RF_DA_OUT2,RF_DA_IN,T1,T2, SE16_6, SE16_9, IR, MEM_DATA_OUT,MEM_DATA_IN, LU_OUT,MEM_ADD_IN : std_logic_vector(15 downto 0);
+signal ALUA_IN,ALUB_IN, ALU_C, RF_DA_OUT1,RF_DA_OUT2,RF_DA_IN,T1,T2, SE16_6, SE16_9, IR_R, MEM_DATA_OUT,MEM_DATA_IN, LU_OUT,MEM_ADD_IN : std_logic_vector(15 downto 0);
 signal PLUS1: std_logic_vector(15 downto 0);
 signal IR_50: std_logic_vector(5 downto 0);
-signal IR_70: out std_logic_vector(7 downto 0);
-signal IR_80: out std_logic_vector(8 downto 0);
-begin
-ALU_A: ALUA_MUX port(S_ALU_A,RF_DA_OUT1,T1,ALUA_IN);
-ALU_B: ALUB_MUX port(S_ALU_B, PLUS1,T2,SE16_6,SE16_9,ALUB_IN);
-ALU_: ALU port(ALUA_IN, ALUB_IN,alu_control, ALU_C, C, Z);
-IR_M: IR_MUX port(S_IR, MEM_DATA_OUT,LU_OUT,IR);
-IR_D: IR port(IR,IR_EN,IR_53,IR_86,IR_119,IR_50,IR_70,IR_80);
-RF1: RF port(RF_AD_OUT1,RF_AD_OUT2,RF_AD_IN,RF_DA_IN,RF_WR,RF_DA_OUT1,RF_DA_OUT2);
-RF_AD_IN: RF_AD_IN_MUX port(S_RF_AD_IN,IR53,IR86,IR119,PEN_O,RF_AD_IN);
-RF_OUT1: RF_AD_OUT1_MUX port(S_RF_AD_OUT1,IR86,IR119,PEN_O,RF_AD_OUT1);
-RF_DA_IN: RF_DA_IN_MUX port(S_RF_DA_IN,ALU_C,T1,MEM_DATA_OUT,RF_DA_OUT1,RF_DA_IN);
-MEM_AD: MEM_ADD_MUX port(S_MEM_ADD,RF_DA_OUT1,T1,RF_DA_OUT2,MEM_ADD_IN);
-MEM_DA: MEM_DATA_MUX port(S_MEM_DATA,RF_DA_IN,RF_DA_OUT1,MEM_DATA_IN);
-MEM_BL: mem_blk port(MEM_ADD_IN,MEM_DATA_IN,MEM_RD,MEM_WR,MEM_DATA_OUT);
-T1_M: T1_MUX port(S_T1,RF_DA_OUT1,ALU_C,SE16_6,T1);
-T2_M: T2_MUX port(S_T2, RF_DA_OUT2,SE16_6,T2);
+signal IR_70: std_logic_vector(7 downto 0);
+signal IR_80: std_logic_vector(8 downto 0);
+signal opcode: std_logic_vector(3 downto 0);
 
-RF_AD_OUT2<=IR119;
+begin
+ALU_A: ALUA_MUX port map(S_ALU_A,RF_DA_OUT1,T1,ALUA_IN);
+ALU_B: ALUB_MUX port map(S_ALU_B, PLUS1,T2,SE16_6,SE16_9,ALUB_IN);
+ALU_P: ALU port map(ALUA_IN, ALUB_IN,alu_control, ALU_C, C, Z);
+IR_M: IR_MUX port map(S_IR, MEM_DATA_OUT,LU_OUT,IR_R);
+IR_D: IR port map(IR_R,IR_EN,IR_53,IR_86,IR_119,IR_50,IR_70,IR_80);
+RF1: RF port map(RF_AD_OUT1,RF_AD_OUT2,RF_AD_IN,RF_reset,RF_DA_IN,RF_WR,RF_DA_OUT1,RF_DA_OUT2);
+RF_AD_IN_C: RF_AD_IN_MUX port map(S_RF_AD_IN,IR_53,IR_86,IR_119,PEN_O,RF_AD_IN);
+RF_OUT1: RF_AD_OUT1_MUX port map(S_RF_AD_OUT1,IR_86,IR_119,PEN_O,RF_AD_OUT1);
+RF_DA_IN_C: RF_DA_IN_MUX port map(S_RF_DA_IN,ALU_C,T1,MEM_DATA_OUT,RF_DA_OUT1,RF_DA_IN);
+MEM_AD: MEM_ADD_MUX port map(S_MEM_ADD,RF_DA_OUT1,T1,RF_DA_OUT2,MEM_ADD_IN);
+MEM_DA: MEM_DATA_MUX port map(S_MEM_DATA,RF_DA_IN,RF_DA_OUT1,MEM_DATA_IN);
+MEM_BL: mem_blk port map(MEM_ADD_IN,MEM_DATA_IN,MEM_RD,MEM_WR,clk,MEM_DATA_OUT);
+T1_M: T1_MUX port map(S_T1,RF_DA_OUT1,ALU_C,SE16_6,T1);
+T2_M: T2_MUX port map(S_T2, RF_DA_OUT2,SE16_6,T2);
+opcode<=IR_R(15 downto 12);
+RF_AD_OUT2<=IR_119;
 
 clock_proc:process(clock,reset)
     begin
@@ -220,7 +255,7 @@ clock_proc:process(clock,reset)
 end process;
 
 
-state_transition_proc:process(state_present)
+state_transition_proc:process(state_present,opcode)
 begin
 case state_present is
     when s1=>
@@ -230,7 +265,7 @@ case state_present is
     S_RF_DA_IN<="00";
     S_MEM_ADD<= "00";
     S_IR<='0';
-    if(opcode = "0000" or opcode = "0010" or opcode = "0001"
+    if(opcode = "0000" or opcode = "0010" or opcode = "0001" or
         opcode = "0100" or opcode = "0101" or opcode = "1100") then-- Fill the code here
         state_next<=s2;
     elsif(opcode ="0011" ) then--FILL OTHER STATES HERE
@@ -263,7 +298,7 @@ case state_present is
         state_next<=s11;
     else
         state_next<=s1;
-    
+    end if;
     when s3=>
     S_ALU_A<='1';
     S_ALU_B<="01";
@@ -278,7 +313,7 @@ case state_present is
         state_next<=s10;
     else
         state_next<=s1;
-    
+    end if;
     when s4=>
         state_next<=s1;
         S_RF_AD_IN<="001"; 
@@ -287,7 +322,7 @@ case state_present is
     when s5=>
         state_next<=s4;
         S_ALU_A<='1';
-        S_ALU_A<="01";
+        S_ALU_B<="01";
         S_T1<="01";
 
     when s6=>
@@ -318,7 +353,7 @@ case state_present is
         S_T1<="01";
         S_ALU_B<="01";
         S_ALU_A<='1';
-        if( z_flag = '1') then
+        if( Z = '1') then
             state_next<=s12;
         else
             state_next<=s1;
@@ -378,7 +413,7 @@ case state_present is
         S_RF_DA_IN<="11";
     when s18=>
             
-        if( z_flag = '0')
+        if( Z= '0') then
             state_next<=s19;
         else
             state_next<=s1;
@@ -409,7 +444,7 @@ case state_present is
     
     when s22=>
            
-        if(z_flag = '0')
+        if(Z = '0') then
             state_next<=s21;
         else
             state_next<=s1;

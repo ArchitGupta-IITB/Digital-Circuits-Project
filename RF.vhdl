@@ -14,7 +14,7 @@ entity RF is
         RF_WR : in std_logic;
         --output data
         RF_DA_OUT1 : out std_logic_vector(15 downto 0);
-        RF_DA_OUT2 : out std_logic_vector(15 downto 0);
+        RF_DA_OUT2 : out std_logic_vector(15 downto 0)
     );
 end entity;
 
@@ -72,13 +72,12 @@ begin
         end if;
     end process write_proc;
 	 
-	RF_DA_OUT1 <= RF_DA_temp1 when read_enable = '1';
-	RF_DA_OUT2 <= RF_DA_temp2 when read_enable = '1';
+	RF_DA_OUT1 <= RF_DA_temp1;
+	RF_DA_OUT2 <= RF_DA_temp2;
 
     --reading from the registers
-    read_proc: process(RF_AD_OUT1,RF_AD_OUT2,read_enable)
+    read_proc: process(RF_AD_OUT1,RF_AD_OUT2)
     begin
-        if(read_enable = '1') then
             if(RF_AD_OUT1 = "000") then
                 RF_DA_temp1 <= R0;
             end if;
@@ -128,7 +127,6 @@ begin
             if(RF_AD_OUT2 = "111") then
                 RF_DA_temp2 <= R7;
             end if;    
-        end if;
 
     end process read_proc;
 end arch;
