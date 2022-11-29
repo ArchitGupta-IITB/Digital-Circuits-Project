@@ -318,7 +318,7 @@ case state_present is
         S_T1<="01";
         S_ALU_B<="01";
         S_ALU_A<='1';
-        if( z_flag = '1')
+        if( z_flag = '1') then
             state_next<=s12;
         else
             state_next<=s1;
@@ -331,9 +331,9 @@ case state_present is
         S_RF_AD_IN<="000";
         S_RF_DA_IN<= "00";
 
-        if(opcode = "1100")
+        if(opcode = "1100") then
             state_next<=s13;
-        elsif(opcode = "1000")
+        elsif(opcode = "1000") then
             state_next<=s14;
         else
             state_next<=s1;
@@ -344,20 +344,40 @@ case state_present is
         S_ALU_A<= '0';
         S_ALU_B<="10";
         S_RF_AD_OUT1<="00";
-        ``
+        S_RF_AD_IN<="000";
+        S_RF_DA_IN<="00";
+
     when s14=>
         state_next<=s15;
+
+        S_RF_AD_OUT1<="00";    
+        S_RF_AD_IN<="011";
+        S_RF_DA_IN<="11";
     
     when s15=>
         state_next<=s1;
-    
+
+        S_ALU_A<='0';
+        S_ALU_B<="11";
+        S_RF_AD_OUT1<="00";
+        S_RF_AD_IN<="000";
+        S_RF_DA_IN<="00";
+
     when s16=>
         state_next<=s17;
-    
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        S_RF_AD_OUT1<="00";
+        S_RF_AD_IN<="011";
+        S_RF_DA_IN<="00";
+
     when s17=>
         state_next<=s1;
-    
+        S_RF_AD_OUT1<="01";
+        S_RF_AD_IN<="000";
+        S_RF_DA_IN<="11";
     when s18=>
+            
         if( z_flag = '0')
             state_next<=s19;
         else
@@ -366,17 +386,29 @@ case state_present is
     
     when s19=>  
         state_next<=s20;
-
+        S_RF_AD_OUT1<="10";
+        S_RF_AD_IN<="100";
+        S_RF_DA_IN<="10";
+        S_T1<="00";
+        S_MEM_ADD<="00";
+        S_MEM_DATA<='0';
+        S_IR<='1';
     when s20=>
-        if(opcode = "0110")
+        S_IR<='0';
+        S_RF_DA_IN<="00";
+        S_RF_AD_IN<="011";
+        S_ALU_A<='1';
+        S_ALU_B<="00";
+        if(opcode = "0110") then
             state_next<=s18;
-        elsif(opcode = "0111")
+        elsif(opcode = "0111") then
             state_next<=s22;
         else
             state_next<=s1;
         end if;
     
     when s22=>
+           
         if(z_flag = '0')
             state_next<=s21;
         else
@@ -385,7 +417,10 @@ case state_present is
 
     when s21=>
         state_next<=s20;
-    
+        S_MEM_DATA<='1';
+        S_MEM_ADD<="10";
+        S_RF_AD_OUT1<="11";
+        S_IR<='1';
     when others=>
         state_next<=s1;
     
