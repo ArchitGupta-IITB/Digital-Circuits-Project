@@ -20,14 +20,14 @@ entity RF is
 end entity;
 
 architecture arch of RF is    
-    signal R0 : std_logic_vector(15 downto 0);
-    signal R1 : std_logic_vector(15 downto 0);
-    signal R2 : std_logic_vector(15 downto 0);
-    signal R3 : std_logic_vector(15 downto 0);
-    signal R4 : std_logic_vector(15 downto 0);
-    signal R5 : std_logic_vector(15 downto 0);
-    signal R6 : std_logic_vector(15 downto 0);
-    signal R7 : std_logic_vector(15 downto 0);
+    signal R0 : std_logic_vector(15 downto 0):="0000000000000000";
+    signal R1 : std_logic_vector(15 downto 0):="0000000000000000";
+    signal R2 : std_logic_vector(15 downto 0):="0000000000000000";
+    signal R3 : std_logic_vector(15 downto 0):="0000000000000000";
+    signal R4 : std_logic_vector(15 downto 0):="0000000000000000";
+    signal R5 : std_logic_vector(15 downto 0):="0000000000000000";
+    signal R6 : std_logic_vector(15 downto 0):="0000000000000000";
+    signal R7 : std_logic_vector(15 downto 0):="0000000000000000";
 	signal RF_DA_temp1 : std_logic_vector(15 downto 0);
     signal RF_DA_temp2 : std_logic_vector(15 downto 0);
 begin

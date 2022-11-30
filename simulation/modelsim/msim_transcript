@@ -1,0 +1,67 @@
+# Reading pref.tcl
+# do DATAPATH_run_msim_rtl_vhdl.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 2020.1 Lib Mapping Utility 2020.02 Feb 28 2020
+# vmap work rtl_work 
+# Copying C:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vcom -93 -work work {E:/214/Project/Testing/FSM.vhdl}
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:24:34 on Dec 01,2022
+# vcom -reportprogress 300 -93 -work work E:/214/Project/Testing/FSM.vhdl 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity FSM
+# -- Compiling architecture bhv of FSM
+# End time: 05:24:34 on Dec 01,2022, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {E:/214/Project/Testing/zero.vhdl}
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:24:34 on Dec 01,2022
+# vcom -reportprogress 300 -93 -work work E:/214/Project/Testing/zero.vhdl 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity zero_checker
+# -- Compiling architecture zero_checker_bhv of zero_checker
+# End time: 05:24:35 on Dec 01,2022, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {E:/214/Project/Testing/signextend.vhdl}
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:24:35 on Dec 01,2022
+# vcom -reportprogress 300 -93 -work work E:/214/Project/Testing/signextend.vhdl 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity se6
+# -- Compiling architecture se6_bhv of se6
+# -- Compiling entity se9
+# -- Compiling architecture se9_bhv of se9
+# -- Compiling entity se8
+# -- Compiling architecture se8_bhv of se8
+# End time: 05:24:35 on Dec 01,2022, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {E:/214/Project/Testing/RF_DA_IN_MUX.vhdl}
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:24:35 on Dec 01,2022
+# vcom -reportprogress 300 -93 -work work E:/214/Project/Testing/RF_DA_IN_MUX.vhdl 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity RF_DA_IN_MUX
+# -- Compiling architecture arch of RF_DA_IN_MUX
+# ** Error (suppressible): E:/214/Project/Testing/RF_DA_IN_MUX.vhdl(27): (vcom-1339) Case statement choices cover only 4 out of 81 cases.
+# ** Note: E:/214/Project/Testing/RF_DA_IN_MUX.vhdl(39): VHDL Compiler exiting
+# End time: 05:24:35 on Dec 01,2022, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# ** Error: C:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/vcom failed.
+# Error in macro ./DATAPATH_run_msim_rtl_vhdl.do line 11
+# C:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/vcom failed.
+#     while executing
+# "vcom -93 -work work {E:/214/Project/Testing/RF_DA_IN_MUX.vhdl}"
