@@ -21,4 +21,3 @@ begin
 	lu_out(1) <= lu_in(1) and ((not pen_o(2)) or (not pen_o(1)) or pen_o(0) or (not lu_en));
 	lu_out(0) <= lu_in(0) and ((not pen_o(2)) or (not pen_o(1)) or (not pen_o(0)) or (not lu_en));
 end lu_bhv;
-	

@@ -1,7 +1,7 @@
-Analysis & Synthesis Status : Failed - Tue Nov 29 19:21:48 2022
+Analysis & Synthesis Status : Failed - Wed Nov 30 20:52:24 2022
 Quartus Prime Version : 20.1.1 Build 720 11/11/2020 SJ Lite Edition
 Revision Name : Main
-Top-level Entity Name : fsm
+Top-level Entity Name : DATAPATH
 Family : MAX 10
 Total logic elements : N/A until Partition Merge
     Total combinational functions : N/A until Partition Merge

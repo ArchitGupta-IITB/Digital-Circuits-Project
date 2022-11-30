@@ -17,8 +17,7 @@ end IR;
 
 architecture IR_bhv of IR is
 	signal IR_store: std_logic_vector(15 downto 0):= "0000000000000000";
-
-	begin
+begin
 	IR_53 <= IR_store(5 downto 3);
 	IR_86 <= IR_store(8 downto 6);
 	IR_119 <= IR_store(11 downto 9);
@@ -26,7 +25,6 @@ architecture IR_bhv of IR is
 	IR_70 <= IR_store(7 downto 0);
 	IR_80 <= IR_store(8 downto 0);
 	opcode<= IR_store(15 downto 12);	
-	
 	write_proc: process(IR_EN)
 	begin
 		if(IR_EN = '1') then

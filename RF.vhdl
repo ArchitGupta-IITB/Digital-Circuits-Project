@@ -32,7 +32,7 @@ architecture arch of RF is
     signal RF_DA_temp2 : std_logic_vector(15 downto 0);
 begin
     --writing to register when write_enable is set
-    write_proc: process(RF_AD_IN,RF_WR,RF_reset,clk)
+    write_proc: process(RF_AD_IN,RF_WR,RF_reset,RF_DA_IN)
     begin
 	    if(RF_reset = '1') then 
             R0 <= "0000000000000000";
@@ -44,7 +44,7 @@ begin
             R6 <= "0000000000000000";
             R7 <= "0000000000000000";
         else  --writing at negative clock edge
-            if(clk'event and clk = '1') then
+            
                 if(RF_WR = '1') then
                     if(RF_AD_IN = "000") then
                         R0 <= RF_DA_IN;
@@ -71,12 +71,11 @@ begin
                         R7 <= RF_DA_IN;
                     end if;
                 end if;
-            end if;
+            
         end if;
     end process write_proc;
 	 
-	RF_DA_OUT1 <= RF_DA_temp1;
-	RF_DA_OUT2 <= RF_DA_temp2;
+	
 
     --reading from the registers
     read_proc: process(RF_AD_OUT1,RF_AD_OUT2)
@@ -132,4 +131,6 @@ begin
             end if;    
 
     end process read_proc;
+    RF_DA_OUT1 <= RF_DA_temp1;
+	RF_DA_OUT2 <= RF_DA_temp2;
 end arch;

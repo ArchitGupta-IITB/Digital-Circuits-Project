@@ -1,0 +1,279 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+
+entity DATAPATH is
+port(reset,clock: in std_logic;
+    S_ALU_A:in std_logic;
+    S_ALU_B: in std_logic_vector( 1 downto 0);
+    alu_control: in std_logic_vector(1 downto 0);
+    
+    --IR
+    S_IR: in std_logic;
+    IR_EN: in std_logic;
+
+
+    --T1 and T2
+    S_T1: in std_logic_vector( 1 downto 0);
+    T1_EN: in std_logic;
+    S_T2: in std_logic;
+    T2_EN:in std_logic;
+
+
+    --RF
+    RF_reset: std_logic;
+    RF_WR: in std_logic;
+    S_RF_AD_OUT1: in std_logic_vector(1 downto 0);
+    S_RF_AD_IN: std_logic_vector(2 downto 0);
+    S_RF_DA_IN: std_logic_vector(1 downto 0);
+
+    --MEM
+    S_MEM_DATA: in std_logic;
+    S_MEM_ADD: in std_logic_vector(1 downto 0);
+    MEM_RD: in std_logic;
+    MEM_WR: in std_logic;
+
+    --output signals
+    C:out std_logic;
+    Z: out std_logic;
+    Z_flag: out std_logic;
+    opcode_o: out std_logic_vector(3 downto 0);
+    );
+end DATAPATH;
+
+architecture bhv of DATAPATH is
+
+component ALUA_MUX is 
+port(
+    S_ALU_A : in std_logic;
+    RF_DA_OUT1 : in std_logic_vector(15 downto 0);
+    T1 : in std_logic_vector(15 downto 0);ALUA_IN : out std_logic_vector(15 downto 0));
+end component ALUA_MUX;
+
+component ALUB_MUX is 
+    port(
+        --select signal
+        S_ALU_B : in std_logic_vector(1 downto 0);
+
+        -- input data
+        PLUS1 : in std_logic_vector(15 downto 0);
+        T2: in std_logic_vector(15 downto 0);
+        SE16_6: in std_logic_vector(15 downto 0);
+        SE16_9: in std_logic_vector(15 downto 0);
+        --output data
+        ALUB_IN : out std_logic_vector(15 downto 0)
+    );
+end component ALUB_MUX;
+
+component ALU is
+    port (
+        ALU_A: in std_logic_vector(15 downto 0);
+        ALU_B: in std_logic_vector(15 downto 0);
+		alu_control: in std_logic_vector(1 downto 0);
+        ALU_C: out std_logic_vector(15 downto 0);
+		C: out std_logic;
+		Z: out std_logic
+    ) ;
+end component ALU;
+
+component IR_MUX is 
+    port(
+        --select signal
+        S_IR : in std_logic;
+
+        -- input data
+        MEM_DATA_IR: in std_logic_vector(15 downto 0);
+        LU_IR  : in std_logic_vector(15 downto 0);
+
+        --output data
+        IR_IN : out std_logic_vector(15 downto 0)
+
+    );
+end component IR_MUX;
+
+component IR is
+	port(
+		IR_IN: in std_logic_vector(15 downto 0);
+		IR_EN: in std_logic;
+		IR_53: out std_logic_vector(2 downto 0);
+		IR_86: out std_logic_vector(2 downto 0);
+		IR_119: out std_logic_vector(2 downto 0);
+		IR_50: out std_logic_vector(5 downto 0);
+		IR_70: out std_logic_vector(7 downto 0);
+		IR_80: out std_logic_vector(8 downto 0)
+	);
+end component IR;
+
+component MEM_DATA_MUX is 
+    port(
+        --select signal
+        S_MEM_DATA : in std_logic;
+
+        -- input data
+        RF_DA_IN  : in std_logic_vector(15 downto 0);
+        RF_DA_OUT1: in std_logic_vector(15 downto 0);
+
+        --output data
+        MEM_DATA_IN : out std_logic_vector(15 downto 0)
+
+    );
+end component MEM_DATA_MUX;
+
+component MEM_ADD_MUX is 
+    port(
+        --select signal
+        S_MEM_ADD : in std_logic_vector(1 downto 0);
+
+        -- input data
+        RF_DA_OUT1 : in std_logic_vector(15 downto 0);
+        T1: in std_logic_vector(15 downto 0);
+        RF_DA_OUT2 : in std_logic_vector(15 downto 0);
+
+        --output data
+        MEM_ADD_IN : out std_logic_vector(15 downto 0)
+
+    );
+end component MEM_ADD_MUX;
+
+component mem_blk is
+	port(
+		MEM_ADD: in std_logic_vector(15 downto 0);
+		MEM_DATA_IN: in std_logic_vector(15 downto 0);
+		MEM_RD: in std_logic;
+		MEM_WR: in std_logic;
+		clk: in std_logic;
+		MEM_DATA_OUT: out std_logic_vector(15 downto 0)
+	);
+end component mem_blk;
+
+component RF is 
+    port(
+        --to store the register number for each address
+        RF_AD_OUT1 : in std_logic_vector(2 downto 0);
+        RF_AD_OUT2 : in std_logic_vector(2 downto 0);
+        RF_AD_IN : in std_logic_vector(2 downto 0);
+        RF_reset: in std_logic;
+        -- input data
+        RF_DA_IN : in std_logic_vector(15 downto 0);
+
+        RF_WR : in std_logic;
+        --output data
+        RF_DA_OUT1 : out std_logic_vector(15 downto 0);
+        RF_DA_OUT2 : out std_logic_vector(15 downto 0)
+    );
+end component RF;
+
+component RF_AD_OUT1_MUX is 
+    port(
+        --select signal
+        S_RF_AD_OUT1 : in std_logic_vector(1 downto 0);
+
+        -- input data
+        IR86: in std_logic_vector(2 downto 0);
+        IR119  : in std_logic_vector(2 downto 0);
+        PEN_O : in std_logic_vector(2 downto 0);
+        --output data
+        RF_AD_OUT1 : out std_logic_vector(2 downto 0)
+
+    );
+end component RF_AD_OUT1_MUX;
+
+component RF_AD_IN_MUX is 
+    port(
+        --select signal
+        S_RF_AD_IN : in std_logic_vector(2 downto 0);
+
+        -- input data
+        IR53: in std_logic_vector(2 downto 0);
+        IR86: in std_logic_vector(2 downto 0);
+        IR119  : in std_logic_vector(2 downto 0);
+        PEN_O : in std_logic_vector(2 downto 0);
+        --output data
+        RF_AD_IN : out std_logic_vector(2 downto 0)
+
+    );
+end component RF_AD_IN_MUX;
+
+
+component RF_DA_IN_MUX is 
+    port(
+        --select signal
+        S_RF_DA_IN : in std_logic_vector(1 downto 0);
+
+        -- input data
+        ALU_C : in std_logic_vector(15 downto 0);
+        T1 : in std_logic_vector(15 downto 0);
+        MEM_DATA: in std_logic_vector(15 downto 0);
+        RF_DA_OUT1: in std_logic_vector(15 downto 0); 
+        --output data
+        RF_DA_IN : out std_logic_vector(15 downto 0)
+
+    );
+end component RF_DA_IN_MUX;
+
+
+component T1_MUX is 
+    port(
+        --select signal
+        S_T1 : in std_logic_vector(1 downto 0);
+
+        -- input data
+        RF_DA_OUT1_T1 : in std_logic_vector(15 downto 0);
+        ALUC_T1: in std_logic_vector(15 downto 0);
+        SE16_6_T1  : in std_logic_vector(15 downto 0);
+
+        T1_EN:std_logic;
+        --output data
+        T1_IN : out std_logic_vector(15 downto 0)
+
+    );
+end component T1_MUX;
+
+component T2_MUX is 
+    port(
+        --select signal
+        S_T2 : in std_logic;
+
+        -- input data
+        RF_DA_OUT2 : in std_logic_vector(15 downto 0);
+        SE16_6  : in std_logic_vector(15 downto 0);
+
+        T2_EN: in std_logic;
+        --output data
+        T2_IN : out std_logic_vector(15 downto 0)
+
+    );
+end component T2_MUX;
+
+
+signal C, Z, Z_flag: std_logic;
+signal RF_AD_OUT1,RF_AD_OUT2,RF_AD_IN, IR_53,IR_86,IR_119,PEN_O: std_logic_vector(2 downto 0);
+signal ALUA_IN,ALUB_IN, ALU_C, RF_DA_OUT1,RF_DA_OUT2,RF_DA_IN,T1,T2, SE16_6, SE16_9, IR_R, MEM_DATA_OUT,MEM_DATA_IN, LU_OUT,MEM_ADD_IN : std_logic_vector(15 downto 0);
+signal PLUS1: "0000000000000001";
+signal IR_50: std_logic_vector(5 downto 0);
+signal IR_70: std_logic_vector(7 downto 0);
+signal IR_80: std_logic_vector(8 downto 0);
+signal opcode: std_logic_vector(3 downto 0);
+
+begin
+MEM_RD<='1';
+C_o<=C;
+Z<=Z_temp;
+Z_flag<=Z_flag_temp;
+opcode_o<= opcode;
+RF_AD_OUT2<=IR_119;
+
+ALU_A: ALUA_MUX port map(S_ALU_A,RF_DA_OUT1,T1,ALUA_IN);
+ALU_B: ALUB_MUX port map(S_ALU_B, PLUS1,T2,SE16_6,SE16_9,ALUB_IN);
+ALU_P: ALU port map(ALUA_IN, ALUB_IN,alu_control, ALU_C, C, Z);
+IR_M: IR_MUX port map(S_IR, MEM_DATA_OUT,LU_OUT,IR_R);
+IR_D: IR port map(IR_R,IR_EN,IR_53,IR_86,IR_119,IR_50,IR_70,IR_80,opcode);
+RF1: RF port map(RF_AD_OUT1,RF_AD_OUT2,RF_AD_IN,RF_reset,RF_DA_IN,RF_WR,RF_DA_OUT1,RF_DA_OUT2);
+RF_AD_IN_C: RF_AD_IN_MUX port map(S_RF_AD_IN,IR_53,IR_86,IR_119,PEN_O,RF_AD_IN);
+RF_OUT1: RF_AD_OUT1_MUX port map(S_RF_AD_OUT1,IR_86,IR_119,PEN_O,RF_AD_OUT1);
+RF_DA_IN_C: RF_DA_IN_MUX port map(S_RF_DA_IN,ALU_C,T1,MEM_DATA_OUT,RF_DA_OUT1,RF_DA_IN);
+MEM_AD: MEM_ADD_MUX port map(S_MEM_ADD,RF_DA_OUT1,T1,RF_DA_OUT2,MEM_ADD_IN);
+MEM_DA: MEM_DATA_MUX port map(S_MEM_DATA,RF_DA_IN,RF_DA_OUT1,MEM_DATA_IN);
+MEM_BL: mem_blk port map(MEM_ADD_IN,MEM_DATA_IN,MEM_RD,MEM_WR,clock,MEM_DATA_OUT);
+T1_M: T1_MUX port map(S_T1,RF_DA_OUT1,ALU_C,SE16_6,T1_EN,T1);
+T2_M: T2_MUX port map(S_T2, RF_DA_OUT2,SE16_6,T2_EN,T2);

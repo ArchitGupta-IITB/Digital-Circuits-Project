@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Main
-Tue Nov 29 19:21:48 2022
+Wed Nov 30 20:52:24 2022
 Quartus Prime Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
 
 
@@ -37,10 +37,10 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Failed - Tue Nov 29 19:21:48 2022           ;
+; Analysis & Synthesis Status        ; Failed - Wed Nov 30 20:52:24 2022           ;
 ; Quartus Prime Version              ; 20.1.1 Build 720 11/11/2020 SJ Lite Edition ;
 ; Revision Name                      ; Main                                        ;
-; Top-level Entity Name              ; fsm                                         ;
+; Top-level Entity Name              ; DATAPATH                                    ;
 ; Family                             ; MAX 10                                      ;
 ; Total logic elements               ; N/A until Partition Merge                   ;
 ;     Total combinational functions  ; N/A until Partition Merge                   ;
@@ -62,7 +62,7 @@ https://fpgasoftware.intel.com/eula.
 ; Option                                                           ; Setting            ; Default Value      ;
 +------------------------------------------------------------------+--------------------+--------------------+
 ; Device                                                           ; 10M08DAF484C8G     ;                    ;
-; Top-level entity name                                            ; fsm                ; Main               ;
+; Top-level entity name                                            ; DATAPATH           ; Main               ;
 ; Family name                                                      ; MAX 10             ; Cyclone V          ;
 ; Use smart compilation                                            ; Off                ; Off                ;
 ; Enable parallel Assembler and Timing Analyzer during compilation ; On                 ; On                 ;
@@ -164,16 +164,26 @@ https://fpgasoftware.intel.com/eula.
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
-    Info: Processing started: Tue Nov 29 19:21:36 2022
+    Info: Processing started: Wed Nov 30 20:52:13 2022
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off 224_Iterations -c Main
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info (12021): Found 2 design units, including 1 entities, in source file rf_alt.vhdl
+    Info (12022): Found design unit 1: RF-RF_bhv File: E:/214/Project/Original/Digital-Circuits-Project/RF_alt.vhdl Line: 18
+    Info (12023): Found entity 1: RF File: E:/214/Project/Original/Digital-Circuits-Project/RF_alt.vhdl Line: 4
+Info (12021): Found 2 design units, including 1 entities, in source file datapath.vhdl
+    Info (12022): Found design unit 1: DATAPATH-bhv File: E:/214/Project/Original/Digital-Circuits-Project/DATAPATH.vhdl Line: 44
+    Info (12023): Found entity 1: DATAPATH File: E:/214/Project/Original/Digital-Circuits-Project/DATAPATH.vhdl Line: 5
 Info (12021): Found 2 design units, including 1 entities, in source file lu.vhdl
     Info (12022): Found design unit 1: lu-lu_bhv File: E:/214/Project/Original/Digital-Circuits-Project/LU.vhdl Line: 13
     Info (12023): Found entity 1: lu File: E:/214/Project/Original/Digital-Circuits-Project/LU.vhdl Line: 4
-Info (12021): Found 2 design units, including 1 entities, in source file fsm.vhdl
-    Info (12022): Found design unit 1: FSM-bhv File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 9
-    Info (12023): Found entity 1: FSM File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 5
+Error (10500): VHDL syntax error at FSM.vhdl(51) near text ")";  expecting an identifier, or "constant", or "file", or "signal", or "variable" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 51
+Error (10500): VHDL syntax error at FSM.vhdl(63) near text "begin";  expecting an identifier ("begin" is a reserved keyword), or "constant", or "file", or "signal", or "variable" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 63
+Error (10500): VHDL syntax error at FSM.vhdl(69) near text "then";  expecting "<=" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 69
+Error (10500): VHDL syntax error at FSM.vhdl(71) near text "else";  expecting "end", or "(", or an identifier ("else" is a reserved keyword), or a concurrent statement File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 71
+Error (10500): VHDL syntax error at FSM.vhdl(72) near text "then";  expecting "<=" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 72
+Error (10500): VHDL syntax error at FSM.vhdl(74) near text "if";  expecting ";", or an identifier ("if" is a reserved keyword), or "architecture" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 74
+Info (12021): Found 0 design units, including 0 entities, in source file fsm.vhdl
 Info (12021): Found 2 design units, including 1 entities, in source file rf_da_in_mux.vhdl
     Info (12022): Found design unit 1: RF_DA_IN_MUX-arch File: E:/214/Project/Original/Digital-Circuits-Project/RF_DA_IN_MUX.vhdl Line: 20
     Info (12023): Found entity 1: RF_DA_IN_MUX File: E:/214/Project/Original/Digital-Circuits-Project/RF_DA_IN_MUX.vhdl Line: 4
@@ -183,27 +193,38 @@ Info (12021): Found 2 design units, including 1 entities, in source file rf_ad_o
 Info (12021): Found 2 design units, including 1 entities, in source file rf_ad_in_mux.vhdl
     Info (12022): Found design unit 1: RF_AD_IN_MUX-arch File: E:/214/Project/Original/Digital-Circuits-Project/RF_AD_IN_MUX.vhdl Line: 20
     Info (12023): Found entity 1: RF_AD_IN_MUX File: E:/214/Project/Original/Digital-Circuits-Project/RF_AD_IN_MUX.vhdl Line: 4
-Info (12021): Found 2 design units, including 1 entities, in source file rf.vhdl
-    Info (12022): Found design unit 1: RF-arch File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 22
-    Info (12023): Found entity 1: RF File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 4
+Error (10430): VHDL Primary Unit Declaration error at RF.vhdl(4): primary unit "RF" already exists in library "work". Compile the two primary units into different libraries or assign them unique names. The Intel FPGA Knowledge Database contains many articles with specific details on how to resolve this error. Visit the Knowledge Database at https://www.altera.com/support/support-resources/knowledge-base/search.html and search for this specific error message number. File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 4
+Error (10784): HDL error at RF_alt.vhdl(4): see declaration for object "RF" File: E:/214/Project/Original/Digital-Circuits-Project/RF_alt.vhdl Line: 4
+Info (12021): Found 0 design units, including 0 entities, in source file rf.vhdl
 Info (12021): Found 2 design units, including 1 entities, in source file register.vhdl
     Info (12022): Found design unit 1: reg-reg_bhv File: E:/214/Project/Original/Digital-Circuits-Project/register.vhdl Line: 13
     Info (12023): Found entity 1: reg File: E:/214/Project/Original/Digital-Circuits-Project/register.vhdl Line: 4
-Info (12021): Found 2 design units, including 1 entities, in source file mem.vhdl
-    Info (12022): Found design unit 1: mem_blk-mem_blk_bhv File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 15
-    Info (12023): Found entity 1: mem_blk File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 4
-Info (12021): Found 2 design units, including 1 entities, in source file ir.vhdl
-    Info (12022): Found design unit 1: IR-IR_bhv File: E:/214/Project/Original/Digital-Circuits-Project/IR.vhdl Line: 17
-    Info (12023): Found entity 1: IR File: E:/214/Project/Original/Digital-Circuits-Project/IR.vhdl Line: 4
+Error (10500): VHDL syntax error at mem.vhdl(4) near text "<";  expecting "entity", or "architecture", or "use", or "library", or "package", or "configuration" File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 4
+Error (10523): Ignored construct mem_blk at mem.vhdl(8) due to previous errors File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 8
+Error (10500): VHDL syntax error at mem.vhdl(21) near text "<";  expecting "begin", or a declaration statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 21
+Error (10500): VHDL syntax error at mem.vhdl(23) near text "=";  expecting "begin", or a declaration statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 23
+Error (10500): VHDL syntax error at mem.vhdl(26) near text ">";  expecting "begin", or a declaration statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 26
+Error (10500): VHDL syntax error at mem.vhdl(36) near text "<";  expecting "end", or "(", or an identifier, or a sequential statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 36
+Error (10500): VHDL syntax error at mem.vhdl(41) near text "=";  expecting "end", or "(", or an identifier, or a sequential statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 41
+Error (10500): VHDL syntax error at mem.vhdl(43) near text ">";  expecting "end", or "(", or an identifier, or a sequential statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 43
+Error (10500): VHDL syntax error at mem.vhdl(53) near text "<";  expecting "end", or "(", or an identifier, or a sequential statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 53
+Error (10500): VHDL syntax error at mem.vhdl(57) near text "=";  expecting "end", or "(", or an identifier, or a sequential statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 57
+Error (10500): VHDL syntax error at mem.vhdl(59) near text ">";  expecting "end", or "(", or an identifier, or a sequential statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 59
+Info (12021): Found 0 design units, including 0 entities, in source file mem.vhdl
+Error (10500): VHDL syntax error at IR.vhdl(15) near text ")";  expecting an identifier, or "constant", or "file", or "signal", or "variable" File: E:/214/Project/Original/Digital-Circuits-Project/IR.vhdl Line: 15
+Error (10500): VHDL syntax error at IR.vhdl(21) near text "begin";  expecting an identifier ("begin" is a reserved keyword), or "constant", or "file", or "signal", or "variable" File: E:/214/Project/Original/Digital-Circuits-Project/IR.vhdl Line: 21
+Info (12021): Found 0 design units, including 0 entities, in source file ir.vhdl
 Info (12021): Found 2 design units, including 1 entities, in source file alu.vhdl
     Info (12022): Found design unit 1: ALU-a1 File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 17
     Info (12023): Found entity 1: ALU File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 4
-Info (12021): Found 2 design units, including 1 entities, in source file t2_mux.vhd
-    Info (12022): Found design unit 1: T2_MUX-arch File: E:/214/Project/Original/Digital-Circuits-Project/T2_MUX.vhd Line: 19
-    Info (12023): Found entity 1: T2_MUX File: E:/214/Project/Original/Digital-Circuits-Project/T2_MUX.vhd Line: 4
-Info (12021): Found 2 design units, including 1 entities, in source file t1_mux.vhd
-    Info (12022): Found design unit 1: T1_MUX-arch File: E:/214/Project/Original/Digital-Circuits-Project/T1_MUX.vhd Line: 20
-    Info (12023): Found entity 1: T1_MUX File: E:/214/Project/Original/Digital-Circuits-Project/T1_MUX.vhd Line: 4
+Error (10500): VHDL syntax error at T2_MUX.vhd(36) near text "if";  expecting "end", or "(", or an identifier ("if" is a reserved keyword), or a concurrent statement File: E:/214/Project/Original/Digital-Circuits-Project/T2_MUX.vhd Line: 36
+Error (10500): VHDL syntax error at T2_MUX.vhd(36) near text "then";  expecting "<=" File: E:/214/Project/Original/Digital-Circuits-Project/T2_MUX.vhd Line: 36
+Error (10500): VHDL syntax error at T2_MUX.vhd(38) near text "if";  expecting ";", or an identifier ("if" is a reserved keyword), or "architecture" File: E:/214/Project/Original/Digital-Circuits-Project/T2_MUX.vhd Line: 38
+Info (12021): Found 0 design units, including 0 entities, in source file t2_mux.vhd
+Error (10500): VHDL syntax error at T1_MUX.vhd(42) near text "if";  expecting "end", or "(", or an identifier ("if" is a reserved keyword), or a concurrent statement File: E:/214/Project/Original/Digital-Circuits-Project/T1_MUX.vhd Line: 42
+Error (10500): VHDL syntax error at T1_MUX.vhd(42) near text "then";  expecting "<=" File: E:/214/Project/Original/Digital-Circuits-Project/T1_MUX.vhd Line: 42
+Error (10500): VHDL syntax error at T1_MUX.vhd(44) near text "if";  expecting ";", or an identifier ("if" is a reserved keyword), or "architecture" File: E:/214/Project/Original/Digital-Circuits-Project/T1_MUX.vhd Line: 44
+Info (12021): Found 0 design units, including 0 entities, in source file t1_mux.vhd
 Info (12021): Found 2 design units, including 1 entities, in source file mem_data_mux.vhd
     Info (12022): Found design unit 1: MEM_DATA_MUX-arch File: E:/214/Project/Original/Digital-Circuits-Project/MEM_DATA_MUX.vhd Line: 19
     Info (12023): Found entity 1: MEM_DATA_MUX File: E:/214/Project/Original/Digital-Circuits-Project/MEM_DATA_MUX.vhd Line: 4
@@ -227,146 +248,10 @@ Info (12021): Found 4 design units, including 2 entities, in source file signext
 Info (12021): Found 2 design units, including 1 entities, in source file priorityencoder.vhdl
     Info (12022): Found design unit 1: PEN-PEN_bhv File: E:/214/Project/Original/Digital-Circuits-Project/priorityencoder.vhdl Line: 8
     Info (12023): Found entity 1: PEN File: E:/214/Project/Original/Digital-Circuits-Project/priorityencoder.vhdl Line: 4
-Info (12127): Elaborating entity "fsm" for the top level hierarchy
-Warning (10036): Verilog HDL or VHDL warning at FSM.vhdl(218): object "C" assigned a value but never read File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 218
-Warning (10541): VHDL Signal Declaration warning at FSM.vhdl(218): used implicit default value for signal "RF_WR" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 218
-Warning (10541): VHDL Signal Declaration warning at FSM.vhdl(218): used implicit default value for signal "IR_EN" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 218
-Warning (10541): VHDL Signal Declaration warning at FSM.vhdl(218): used implicit default value for signal "MEM_WR" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 218
-Warning (10541): VHDL Signal Declaration warning at FSM.vhdl(218): used implicit default value for signal "RF_reset" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 218
-Warning (10541): VHDL Signal Declaration warning at FSM.vhdl(219): used implicit default value for signal "alu_control" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 219
-Warning (10541): VHDL Signal Declaration warning at FSM.vhdl(220): used implicit default value for signal "PEN_O" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 220
-Warning (10541): VHDL Signal Declaration warning at FSM.vhdl(221): used implicit default value for signal "SE16_6" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 221
-Warning (10541): VHDL Signal Declaration warning at FSM.vhdl(221): used implicit default value for signal "SE16_9" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 221
-Warning (10541): VHDL Signal Declaration warning at FSM.vhdl(221): used implicit default value for signal "LU_OUT" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 221
-Warning (10541): VHDL Signal Declaration warning at FSM.vhdl(222): used implicit default value for signal "PLUS1" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 222
-Warning (10036): Verilog HDL or VHDL warning at FSM.vhdl(223): object "IR_50" assigned a value but never read File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 223
-Warning (10036): Verilog HDL or VHDL warning at FSM.vhdl(224): object "IR_70" assigned a value but never read File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 224
-Warning (10036): Verilog HDL or VHDL warning at FSM.vhdl(225): object "IR_80" assigned a value but never read File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 225
-Warning (10492): VHDL Process Statement warning at FSM.vhdl(358): signal "Z" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 358
-Warning (10492): VHDL Process Statement warning at FSM.vhdl(418): signal "Z" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 418
-Warning (10492): VHDL Process Statement warning at FSM.vhdl(449): signal "Z" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 449
-Warning (10631): VHDL Process Statement warning at FSM.vhdl(260): inferring latch(es) for signal or variable "S_RF_AD_OUT1", which holds its previous value in one or more paths through the process File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Warning (10631): VHDL Process Statement warning at FSM.vhdl(260): inferring latch(es) for signal or variable "S_IR", which holds its previous value in one or more paths through the process File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Warning (10631): VHDL Process Statement warning at FSM.vhdl(260): inferring latch(es) for signal or variable "S_RF_AD_IN", which holds its previous value in one or more paths through the process File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Warning (10631): VHDL Process Statement warning at FSM.vhdl(260): inferring latch(es) for signal or variable "S_RF_DA_IN", which holds its previous value in one or more paths through the process File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Warning (10631): VHDL Process Statement warning at FSM.vhdl(260): inferring latch(es) for signal or variable "S_MEM_ADD", which holds its previous value in one or more paths through the process File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Warning (10631): VHDL Process Statement warning at FSM.vhdl(260): inferring latch(es) for signal or variable "S_T1", which holds its previous value in one or more paths through the process File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Warning (10631): VHDL Process Statement warning at FSM.vhdl(260): inferring latch(es) for signal or variable "S_T2", which holds its previous value in one or more paths through the process File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Warning (10631): VHDL Process Statement warning at FSM.vhdl(260): inferring latch(es) for signal or variable "S_ALU_A", which holds its previous value in one or more paths through the process File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Warning (10631): VHDL Process Statement warning at FSM.vhdl(260): inferring latch(es) for signal or variable "S_ALU_B", which holds its previous value in one or more paths through the process File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Warning (10631): VHDL Process Statement warning at FSM.vhdl(260): inferring latch(es) for signal or variable "S_MEM_DATA", which holds its previous value in one or more paths through the process File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_MEM_DATA" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_ALU_B[0]" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_ALU_B[1]" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_ALU_A" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_T2" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_T1[0]" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_T1[1]" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_MEM_ADD[0]" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_MEM_ADD[1]" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_RF_DA_IN[0]" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_RF_DA_IN[1]" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_RF_AD_IN[0]" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_RF_AD_IN[1]" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_RF_AD_IN[2]" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_IR" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_RF_AD_OUT1[0]" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (10041): Inferred latch for "S_RF_AD_OUT1[1]" at FSM.vhdl(260) File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 260
-Info (12128): Elaborating entity "ALUA_MUX" for hierarchy "ALUA_MUX:ALU_A" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 230
-Info (12128): Elaborating entity "ALUB_MUX" for hierarchy "ALUB_MUX:ALU_B" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 231
-Info (12128): Elaborating entity "ALU" for hierarchy "ALU:ALU_P" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 232
-Warning (10492): VHDL Process Statement warning at ALU.vhdl(27): signal "C_init" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 27
-Warning (10492): VHDL Process Statement warning at ALU.vhdl(28): signal "C_init" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 28
-Warning (10492): VHDL Process Statement warning at ALU.vhdl(42): signal "op1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 42
-Warning (10492): VHDL Process Statement warning at ALU.vhdl(43): signal "C_init" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 43
-Warning (10492): VHDL Process Statement warning at ALU.vhdl(44): signal "op1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 44
-Warning (10492): VHDL Process Statement warning at ALU.vhdl(46): signal "x" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 46
-Warning (10492): VHDL Process Statement warning at ALU.vhdl(46): signal "op1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 46
-Warning (10492): VHDL Process Statement warning at ALU.vhdl(49): signal "x" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 49
-Warning (10631): VHDL Process Statement warning at ALU.vhdl(22): inferring latch(es) for signal or variable "C_init", which holds its previous value in one or more paths through the process File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Warning (10631): VHDL Process Statement warning at ALU.vhdl(22): inferring latch(es) for signal or variable "op1", which holds its previous value in one or more paths through the process File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[0]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[1]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[2]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[3]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[4]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[5]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[6]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[7]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[8]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[9]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[10]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[11]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[12]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[13]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[14]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "op1[15]" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (10041): Inferred latch for "C_init" at ALU.vhdl(22) File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 22
-Info (12128): Elaborating entity "IR_MUX" for hierarchy "IR_MUX:IR_M" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 233
-Info (12128): Elaborating entity "IR" for hierarchy "IR:IR_D" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 234
-Info (12128): Elaborating entity "RF" for hierarchy "RF:RF1" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 235
-Warning (10492): VHDL Process Statement warning at RF.vhdl(85): signal "R0" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 85
-Warning (10492): VHDL Process Statement warning at RF.vhdl(88): signal "R1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 88
-Warning (10492): VHDL Process Statement warning at RF.vhdl(91): signal "R2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 91
-Warning (10492): VHDL Process Statement warning at RF.vhdl(94): signal "R3" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 94
-Warning (10492): VHDL Process Statement warning at RF.vhdl(97): signal "R4" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 97
-Warning (10492): VHDL Process Statement warning at RF.vhdl(100): signal "R5" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 100
-Warning (10492): VHDL Process Statement warning at RF.vhdl(103): signal "R6" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 103
-Warning (10492): VHDL Process Statement warning at RF.vhdl(106): signal "R7" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 106
-Warning (10492): VHDL Process Statement warning at RF.vhdl(110): signal "R0" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 110
-Warning (10492): VHDL Process Statement warning at RF.vhdl(113): signal "R1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 113
-Warning (10492): VHDL Process Statement warning at RF.vhdl(116): signal "R2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 116
-Warning (10492): VHDL Process Statement warning at RF.vhdl(119): signal "R3" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 119
-Warning (10492): VHDL Process Statement warning at RF.vhdl(122): signal "R4" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 122
-Warning (10492): VHDL Process Statement warning at RF.vhdl(125): signal "R5" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 125
-Warning (10492): VHDL Process Statement warning at RF.vhdl(128): signal "R6" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 128
-Warning (10492): VHDL Process Statement warning at RF.vhdl(131): signal "R7" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 131
-Warning (10631): VHDL Process Statement warning at RF.vhdl(82): inferring latch(es) for signal or variable "RF_DA_temp1", which holds its previous value in one or more paths through the process File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Warning (10631): VHDL Process Statement warning at RF.vhdl(82): inferring latch(es) for signal or variable "RF_DA_temp2", which holds its previous value in one or more paths through the process File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[0]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[1]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[2]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[3]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[4]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[5]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[6]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[7]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[8]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[9]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[10]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[11]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[12]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[13]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[14]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp2[15]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[0]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[1]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[2]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[3]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[4]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[5]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[6]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[7]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[8]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[9]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[10]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[11]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[12]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[13]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[14]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (10041): Inferred latch for "RF_DA_temp1[15]" at RF.vhdl(82) File: E:/214/Project/Original/Digital-Circuits-Project/RF.vhdl Line: 82
-Info (12128): Elaborating entity "RF_AD_IN_MUX" for hierarchy "RF_AD_IN_MUX:RF_AD_IN_C" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 236
-Info (12128): Elaborating entity "RF_AD_OUT1_MUX" for hierarchy "RF_AD_OUT1_MUX:RF_OUT1" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 237
-Info (12128): Elaborating entity "RF_DA_IN_MUX" for hierarchy "RF_DA_IN_MUX:RF_DA_IN_C" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 238
-Info (12128): Elaborating entity "MEM_ADD_MUX" for hierarchy "MEM_ADD_MUX:MEM_AD" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 239
-Info (12128): Elaborating entity "MEM_DATA_MUX" for hierarchy "MEM_DATA_MUX:MEM_DA" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 240
-Info (12128): Elaborating entity "mem_blk" for hierarchy "mem_blk:MEM_BL" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 241
-Error (10344): VHDL expression error at mem.vhdl(39): expression has 65536 elements, but must have 16 elements File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 39
-Error (12152): Can't elaborate user hierarchy "mem_blk:MEM_BL" File: E:/214/Project/Original/Digital-Circuits-Project/FSM.vhdl Line: 241
-Error: Quartus Prime Analysis & Synthesis was unsuccessful. 2 errors, 56 warnings
-    Error: Peak virtual memory: 4833 megabytes
-    Error: Processing ended: Tue Nov 29 19:21:48 2022
-    Error: Elapsed time: 00:00:12
+Error: Quartus Prime Analysis & Synthesis was unsuccessful. 27 errors, 1 warning
+    Error: Peak virtual memory: 4776 megabytes
+    Error: Processing ended: Wed Nov 30 20:52:24 2022
+    Error: Elapsed time: 00:00:11
     Error: Total CPU time (on all processors): 00:00:11
 
 
