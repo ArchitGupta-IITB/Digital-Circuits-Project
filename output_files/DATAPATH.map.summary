@@ -1,13 +1,13 @@
-Analysis & Synthesis Status : Successful - Wed Nov 30 23:44:24 2022
+Analysis & Synthesis Status : Successful - Thu Dec 01 03:56:09 2022
 Quartus Prime Version : 20.1.1 Build 720 11/11/2020 SJ Lite Edition
 Revision Name : DATAPATH
-Top-level Entity Name : DATAPATH
+Top-level Entity Name : FSM
 Family : MAX 10
-Total logic elements : 4,105
-    Total combinational functions : 4,105
+Total logic elements : 0
+    Total combinational functions : 0
     Dedicated logic registers : 0
 Total registers : 0
-Total pins : 34
+Total pins : 2
 Total virtual pins : 0
 Total memory bits : 0
 Embedded Multiplier 9-bit elements : 0

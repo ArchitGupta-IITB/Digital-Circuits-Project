@@ -13,7 +13,9 @@ entity IR is
 		IR_50: out std_logic_vector(5 downto 0);
 		IR_70: out std_logic_vector(7 downto 0);
 		IR_80: out std_logic_vector(8 downto 0);
-		opcode: out std_logic_vector(3 downto 0)
+		opcode: out std_logic_vector(3 downto 0);
+		C_EN: out std_logic;
+		Z_EN: out std_logic
 	);
 end IR;
 
@@ -37,4 +39,6 @@ architecture IR_bhv of IR is
 	IR_70 <= IR_store(7 downto 0);
 	IR_80 <= IR_store(8 downto 0);
 	opcode<= IR_store(15 downto 12);
+	C_EN<= IR_store(1);
+	Z_EN<= IR_store(0);
 end IR_bhv;

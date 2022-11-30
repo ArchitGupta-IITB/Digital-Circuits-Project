@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 
 
 entity DATAPATH is
-port(reset,clock: in std_logic;
+port(
     S_ALU_A:in std_logic;
     S_ALU_B: in std_logic_vector( 1 downto 0);
     alu_control: in std_logic_vector(1 downto 0);
@@ -24,7 +24,7 @@ port(reset,clock: in std_logic;
 
 
     --RF
-    RF_reset: std_logic;
+    RF_reset:in std_logic;
     RF_WR: in std_logic;
     S_RF_AD_OUT1: in std_logic_vector(1 downto 0);
     S_RF_AD_IN: std_logic_vector(2 downto 0);
@@ -38,7 +38,9 @@ port(reset,clock: in std_logic;
     C_o:out std_logic;
     Z_o: out std_logic;
     Z_flag: out std_logic;
-    opcode_o: out std_logic_vector(3 downto 0)
+    opcode_o: out std_logic_vector(3 downto 0);
+    C_EN: out std_logic;
+    Z_EN: out std_logic
     );
 end DATAPATH;
 
@@ -104,7 +106,9 @@ component IR is
 		IR_50: out std_logic_vector(5 downto 0);
 		IR_70: out std_logic_vector(7 downto 0);
 		IR_80: out std_logic_vector(8 downto 0);
-		opcode: out std_logic_vector(3 downto 0)
+		opcode: out std_logic_vector(3 downto 0);
+        C_EN: out std_logic;
+        Z_EN: out std_logic
 	);
 end component IR;
 
@@ -295,7 +299,7 @@ ALU_A: ALUA_MUX port map(S_ALU_A,RF_DA_OUT1,T1,ALUA_IN);
 ALU_B: ALUB_MUX port map(S_ALU_B, PLUS1,T2,SE16_6,SE16_9,ALUB_IN);
 ALU_P: ALU port map(ALUA_IN, ALUB_IN,alu_control, ALU_C, C, Z);
 --IR_M: IR_MUX port map(S_IR, MEM_DATA_OUT,LU_OUT,IR_R);
-IR_D: IR port map(MEM_DATA_OUT,LU_OUT,IR_EN,IR_EN07,IR_53,IR_86,IR_119,IR_50,IR_70,IR_80,opcode);
+IR_D: IR port map(MEM_DATA_OUT,LU_OUT,IR_EN,IR_EN07,IR_53,IR_86,IR_119,IR_50,IR_70,IR_80,opcode,C_EN,Z_EN);
 RF1: RF port map(RF_AD_OUT1,RF_AD_OUT2,RF_AD_IN,RF_reset,RF_DA_IN,RF_WR,RF_DA_OUT1,RF_DA_OUT2);
 RF_AD_IN_C: RF_AD_IN_MUX port map(S_RF_AD_IN,IR_53,IR_86,IR_119,PEN_O,RF_AD_IN);
 RF_OUT1: RF_AD_OUT1_MUX port map(S_RF_AD_OUT1,IR_86,IR_119,PEN_O,RF_AD_OUT1);
@@ -303,7 +307,7 @@ RF_DA_IN_C: RF_DA_IN_MUX port map(S_RF_DA_IN,ALU_C,T1,MEM_DATA_OUT,RF_DA_OUT1,RF
 MEM_AD: MEM_ADD_MUX port map(S_MEM_ADD,RF_DA_OUT1,T1,RF_DA_OUT2,MEM_ADD_IN);
 --MEM_DA: MEM_DATA_MUX port map(S_MEM_DATA,RF_DA_IN,RF_DA_OUT1,MEM_DATA_IN);
 MEM_BL: mem_blk port map(MEM_ADD_IN,RF_DA_OUT1,MEM_WR,MEM_DATA_OUT);
-T1_M: T1_MUX port map(S_T1,RF_DA_OUT1,ALU_C,SE16_8,T1_EN,T1);
+T1_M: T1_MUX port map(S_T1,RF_DA_OUT1,ALU_C,SE16_9,T1_EN,T1);
 T2_M: T2_MUX port map(S_T2, RF_DA_OUT2,SE16_6,T2_EN,T2);
 LU0: lu port map(IR_70,lu_en, LU_OUT,PEN_O );
 PEN1: PEN port map(IR_70,PEN_O );

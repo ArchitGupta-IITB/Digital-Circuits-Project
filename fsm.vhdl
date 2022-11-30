@@ -13,7 +13,7 @@ type state is (s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13,
 ---------------Define signals of state type-----------------------
 
 component DATAPATH is
-    port(reset,clock: in std_logic;
+    port(
         S_ALU_A:in std_logic;
         S_ALU_B: in std_logic_vector( 1 downto 0);
         alu_control: in std_logic_vector(1 downto 0);
@@ -48,7 +48,9 @@ component DATAPATH is
         C_o:out std_logic;
         Z_o: out std_logic;
         Z_flag: out std_logic;
-        opcode_o: out std_logic_vector(3 downto 0)
+        opcode_o: out std_logic_vector(3 downto 0);
+        C_EN: out std_logic;
+        Z_EN: out std_logic
         );
     end component DATAPATH;
     
@@ -56,14 +58,14 @@ component DATAPATH is
 
 
 signal state_present,state_next: state:=s1;
-signal S_ALU_A, S_IR, S_T2, S_MEM_DATA, C, Z, RF_WR,IR_EN,MEM_RD,MEM_WR,RF_reset: std_logic;
-signal S_ALU_B, S_ALU, S_RF_AD_OUT1, S_RF_DA_IN, S_T1, S_MEM_ADD, alu_control: std_logic_vector(1 downto 0);
-signal S_RF_AD_IN: std_logic_vector(2 downto 0);
-signal opcode: std_logic_vector(3 downto 0);
+signal S_ALU_A, S_IR, S_T2, C, Z, RF_WR,IR_EN,MEM_WR,RF_reset,IR_EN07, T1_EN, T2_EN, LU_EN,Z_Flag,C_EN,Z_EN: std_logic:='0';
+signal S_ALU_B, S_ALU, S_RF_AD_OUT1, S_RF_DA_IN, S_T1, S_MEM_ADD, alu_control: std_logic_vector(1 downto 0):="00";
+signal S_RF_AD_IN: std_logic_vector(2 downto 0):="000";
+signal opcode: std_logic_vector(3 downto 0):="0000";
 
 
 begin
-DATAPATH1: DATAPATH port map(reset,clock,S_ALU_A,S_ALU_B,alu_control,S_IR,IR_EN,S_T1,T1_EN,S_T2,T2_EN,RF_reset,RF_WR,S_RF_AD_OUT1,S_RF_AD_IN,S_RF_DA_IN,S_MEM_DATA,S_MEM_ADD,MEM_RD, MEM_WR,C,Z,Z_flag,opcode);
+DATAPATH1: DATAPATH port map(S_ALU_A,S_ALU_B,alu_control,IR_EN07,IR_EN,S_T1,T1_EN,S_T2,T2_EN,lu_en,RF_reset,RF_WR,S_RF_AD_OUT1,S_RF_AD_IN,S_RF_DA_IN,S_MEM_ADD, MEM_WR,C,Z,Z_flag,opcode,C_EN,Z_EN);
 
 clock_proc:process(clock,reset)
     begin
@@ -82,17 +84,25 @@ state_transition_proc:process(state_present,opcode)
 begin
 case state_present is
     when s1=>
-    RF_WR<='1';
-    alu_control<="00";
+    S_RF_AD_OUT1<="00";
+    S_MEM_ADD<="00";
     IR_EN<='1';
     IR_EN07<='0';
-
-    S_RF_AD_OUT1 <= "00";
-    S_IR<='0';
+    S_ALU_A<='0';
+    S_ALU_B<="00";
+    alu_control<="00";
     S_RF_AD_IN<="000";
     S_RF_DA_IN<="00";
-    S_MEM_ADD<= "00";   
-    S_IR<='0';
+    RF_WR<='1';
+    T1_EN<='0';
+    T2_EN<='0';
+    S_T2 <='0';
+    MEM_WR<='0';
+    RF_reset<='0';
+    S_T1<="00";
+    Lu_en<='0';
+    
+
     if(opcode = "0000" or opcode = "0010" or opcode = "0001" or
         opcode = "0100" or opcode = "0101" or opcode = "1100") then-- Fill the code here
         state_next<=s2;
@@ -111,36 +121,73 @@ case state_present is
     end if;
 
     when s2=>
-    T1_EN<='1';
 
+    S_MEM_ADD<="00";
+    IR_EN<='0';
+    IR_EN07<='0';
+    S_ALU_A<='0';
+    S_ALU_B<="00";
+    alu_control<="00";
+    S_RF_AD_IN<="000";
+    S_RF_DA_IN<="00";
+    RF_WR<='0';
+    T1_EN<='1';
+    MEM_WR<='0';
+    RF_reset<='0';
+    
+    Lu_en<='0';
+    
     S_RF_AD_OUT1<="01";
     S_T1<="00";
+    T2_EN<='1';
+    if(opcode="0100" or opcode= "0101") then
+        S_T2<='1';
+        
+        
+    elsif (opcode="0000" or opcode="0010" or opcode="1100") then
+        S_T2<='0';
+    end if;
+    
+
+
     if(opcode = "0000" or opcode = "0001") then
         state_next<=s3; -- Fill the code here
-        S_T2<='0';
-        T2_EN<='1';
     elsif (opcode = "0100" or opcode = "0101") then
         state_next<=s3;
-        S_T2<='1';
-        T2<='1';
     elsif(opcode = "0010") then
         state_next<=s5;
-        S_T2<='0';
-        T2_EN<='1';
     elsif(opcode = "1100") then
         state_next<=s11;
-        T2_EN<='1';
-        S_T2<='0';
     else
         state_next<=s1;
     end if;
+
+
+
     when s3=>
+
+    S_RF_AD_OUT1<="00";
+    S_MEM_ADD<="00";
+    IR_EN<='0';
+    IR_EN07<='0';
+    S_RF_AD_IN<="000";
+    S_RF_DA_IN<="00";
+    RF_WR<='0';
+    T2_EN<='0';
+    S_T2 <='0';
+    MEM_WR<='0';
+    RF_reset<='0';
+    S_T1<="00";
+    Lu_en<='0';
+    
+
+
     alu_control<="00";
     T1_EN<='1';
-
     S_ALU_A<='1';
     S_ALU_B<="01";
     S_T1<="01";
+
     if(opcode = "0000") then
         state_next<=s4; 
     elsif(opcode = "0001") then
@@ -152,49 +199,183 @@ case state_present is
     else
         state_next<=s1;
     end if;
+
+
     when s4=>
-        if()
-        RF_WR<=;
+        S_RF_AD_OUT1<="00";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        alu_control<="00";
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
+        
+    
+        if((C_EN='0' and Z_EN='0') or (C_EN='1' and Z_EN='0' and C='1') or (Z_en='1' and Z='1' and C_EN='0') )then
+            RF_WR<='1';
+        end if;
         state_next<=s1;
         S_RF_AD_IN<="001"; 
         S_RF_DA_IN<="01";
 
     when s5=>
+        S_RF_AD_OUT1<="00";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
+        S_RF_AD_IN<="000";
+        S_RF_DA_IN<="00";
+        RF_WR<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        Lu_en<='0';
+        
+
+
         alu_control<="10";
-        state_next<=s4;
+        T1_EN<='1';
         S_ALU_A<='1';
         S_ALU_B<="01";
         S_T1<="01";
+
+        state_next<=s4;
 
     when s6=>
-        state_next<=s1;
+        S_RF_AD_OUT1<="00";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        alu_control<="00";
         S_RF_AD_IN<="010";
         S_RF_DA_IN<="01";
-    when s7=>
-        
-        state_next<=s8;
-        S_T1<="10";    
-    when s8=>
+        RF_WR<='1';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
+
         state_next<=s1;
+
+    when s7=>
+        S_RF_AD_OUT1<="00";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        alu_control<="00";
+        S_RF_AD_IN<="000";
+        S_RF_DA_IN<="00";
+        RF_WR<='0';
+        T1_EN<='1';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="10";
+        Lu_en<='0';
+
+
+        state_next<=s8;
+    
+    when s8=>
+        S_RF_AD_OUT1<="00";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        alu_control<="00";
         S_RF_AD_IN<="011";
         S_RF_DA_IN<="01";
+        RF_WR<='1';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
 
+        state_next<=s1;
+        
     when s9=>
-        state_next<=s1;
-        S_MEM_DATA<='0';
+        S_RF_AD_OUT1<="00";
         S_MEM_ADD<="01";
-        S_RF_DA_IN<="10";
+        IR_EN<='0';
+        IR_EN07<='0';
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        alu_control<="00";
         S_RF_AD_IN<="011";
-    when s10=>
+        S_RF_DA_IN<="10";
+        RF_WR<='1';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
+
         state_next<=s1;
+        
+    when s10=>
         S_RF_AD_OUT1<="10";
         S_MEM_ADD<="01";
-        S_MEM_DATA<='1';
+        IR_EN<='0';
+        IR_EN07<='0';
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        alu_control<="00";
+        S_RF_AD_IN<="000";
+        S_RF_DA_IN<="00";
+        RF_WR<='0';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='1';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
+
+
+        state_next<=s1;
 
     when s11=>
-        S_T1<="01";
-        S_ALU_B<="01";
+        S_RF_AD_OUT1<="00";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
         S_ALU_A<='1';
+        S_ALU_B<="01";
+        alu_control<="01";
+        S_RF_AD_IN<="000";
+        S_RF_DA_IN<="00";
+        RF_WR<='0';
+        T1_EN<='1';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="01";
+        Lu_en<='0';
+
+
         if( Z = '1') then
             state_next<=s12;
         else
@@ -202,11 +383,25 @@ case state_present is
         end if;
     
     when s12=>
+        S_RF_AD_OUT1<="00";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
         S_ALU_A<='0';
         S_ALU_B<="00";
-        S_RF_AD_OUT1<="00";
+        alu_control<="01";
         S_RF_AD_IN<="000";
-        S_RF_DA_IN<= "00";
+        S_RF_DA_IN<="00";
+        RF_WR<='1';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
+
+
 
         if(opcode = "1100") then
             state_next<=s13;
@@ -218,42 +413,131 @@ case state_present is
 
     when s13=>
         state_next<=s1;
-        S_ALU_A<= '0';
-        S_ALU_B<="10";
+
         S_RF_AD_OUT1<="00";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
+        S_ALU_A<='0';
+        S_ALU_B<="10";
+        alu_control<="00";
         S_RF_AD_IN<="000";
         S_RF_DA_IN<="00";
+        RF_WR<='1';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
+
 
     when s14=>
         state_next<=s15;
 
-        S_RF_AD_OUT1<="00";    
+        S_RF_AD_OUT1<="00";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        alu_control<="00";
         S_RF_AD_IN<="011";
         S_RF_DA_IN<="11";
+        RF_WR<='1';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
     
     when s15=>
         state_next<=s1;
 
+        S_RF_AD_OUT1<="00";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
         S_ALU_A<='0';
         S_ALU_B<="11";
-        S_RF_AD_OUT1<="00";
+        alu_control<="00";
         S_RF_AD_IN<="000";
         S_RF_DA_IN<="00";
+        RF_WR<='1';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
+
+
 
     when s16=>
         state_next<=s17;
+
+        S_RF_AD_OUT1<="00";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
         S_ALU_A<='0';
         S_ALU_B<="00";
-        S_RF_AD_OUT1<="00";
+        alu_control<="01";
         S_RF_AD_IN<="011";
         S_RF_DA_IN<="00";
+        RF_WR<='1';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
+
 
     when s17=>
         state_next<=s1;
+
         S_RF_AD_OUT1<="01";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        alu_control<="00";
         S_RF_AD_IN<="000";
         S_RF_DA_IN<="11";
+        RF_WR<='1';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
+
     when s18=>
+        S_RF_AD_OUT1<="00";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        alu_control<="00";
+        S_RF_AD_IN<="000";
+        S_RF_DA_IN<="00";
+        RF_WR<='0';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
             
         if( Z_flag= '0') then
             state_next<=s19;
@@ -262,20 +546,46 @@ case state_present is
         end if;
     
     when s19=>  
-        state_next<=s20;
         S_RF_AD_OUT1<="10";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='1';
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        alu_control<="00";
         S_RF_AD_IN<="100";
         S_RF_DA_IN<="10";
+        RF_WR<='1';
+        T1_EN<='1';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
         S_T1<="00";
-        S_MEM_ADD<="00";
-        S_MEM_DATA<='0';
-        S_IR<='1';
+        Lu_en<='1';
+
+        state_next<=s20;
+        
     when s20=>
-        S_IR<='0';
-        S_RF_DA_IN<="00";
-        S_RF_AD_IN<="011";
+        S_RF_AD_OUT1<="10";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
         S_ALU_A<='1';
         S_ALU_B<="00";
+        alu_control<="00";
+        S_RF_AD_IN<="011";
+        S_RF_DA_IN<="00";
+        RF_WR<='1';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
+
+       
         if(opcode = "0110") then
             state_next<=s18;
         elsif(opcode = "0111") then
@@ -285,7 +595,24 @@ case state_present is
         end if;
     
     when s22=>
-           
+        S_RF_AD_OUT1<="00";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        alu_control<="00";
+        S_RF_AD_IN<="000";
+        S_RF_DA_IN<="00";
+        RF_WR<='0';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
+   
         if(Z_flag = '0') then
             state_next<=s21;
         else
@@ -294,11 +621,42 @@ case state_present is
 
     when s21=>
         state_next<=s20;
-        S_MEM_DATA<='1';
-        S_MEM_ADD<="10";
         S_RF_AD_OUT1<="11";
-        S_IR<='1';
+        S_MEM_ADD<="10";
+        IR_EN<='0';
+        IR_EN07<='1';
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        alu_control<="00";
+        S_RF_AD_IN<="000";
+        S_RF_DA_IN<="00";
+        RF_WR<='0';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='1';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='1';
+
     when others=>
+        S_RF_AD_OUT1<="00";
+        S_MEM_ADD<="00";
+        IR_EN<='0';
+        IR_EN07<='0';
+        S_ALU_A<='0';
+        S_ALU_B<="00";
+        alu_control<="00";
+        S_RF_AD_IN<="000";
+        S_RF_DA_IN<="00";
+        RF_WR<='0';
+        T1_EN<='0';
+        T2_EN<='0';
+        S_T2 <='0';
+        MEM_WR<='0';
+        RF_reset<='0';
+        S_T1<="00";
+        Lu_en<='0';
         state_next<=s1;
     
 end case;
