@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Main
-Wed Nov 30 20:52:24 2022
+Wed Nov 30 22:44:54 2022
 Quartus Prime Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
 
 
@@ -37,7 +37,7 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Failed - Wed Nov 30 20:52:24 2022           ;
+; Analysis & Synthesis Status        ; Failed - Wed Nov 30 22:44:54 2022           ;
 ; Quartus Prime Version              ; 20.1.1 Build 720 11/11/2020 SJ Lite Edition ;
 ; Revision Name                      ; Main                                        ;
 ; Top-level Entity Name              ; DATAPATH                                    ;
@@ -164,7 +164,7 @@ https://fpgasoftware.intel.com/eula.
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
-    Info: Processing started: Wed Nov 30 20:52:13 2022
+    Info: Processing started: Wed Nov 30 22:44:46 2022
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off 224_Iterations -c Main
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
@@ -172,7 +172,7 @@ Info (12021): Found 2 design units, including 1 entities, in source file rf_alt.
     Info (12022): Found design unit 1: RF-RF_bhv File: E:/214/Project/Original/Digital-Circuits-Project/RF_alt.vhdl Line: 18
     Info (12023): Found entity 1: RF File: E:/214/Project/Original/Digital-Circuits-Project/RF_alt.vhdl Line: 4
 Info (12021): Found 2 design units, including 1 entities, in source file datapath.vhdl
-    Info (12022): Found design unit 1: DATAPATH-bhv File: E:/214/Project/Original/Digital-Circuits-Project/DATAPATH.vhdl Line: 44
+    Info (12022): Found design unit 1: DATAPATH-bhv File: E:/214/Project/Original/Digital-Circuits-Project/DATAPATH.vhdl Line: 46
     Info (12023): Found entity 1: DATAPATH File: E:/214/Project/Original/Digital-Circuits-Project/DATAPATH.vhdl Line: 5
 Info (12021): Found 2 design units, including 1 entities, in source file lu.vhdl
     Info (12022): Found design unit 1: lu-lu_bhv File: E:/214/Project/Original/Digital-Circuits-Project/LU.vhdl Line: 13
@@ -199,20 +199,11 @@ Info (12021): Found 0 design units, including 0 entities, in source file rf.vhdl
 Info (12021): Found 2 design units, including 1 entities, in source file register.vhdl
     Info (12022): Found design unit 1: reg-reg_bhv File: E:/214/Project/Original/Digital-Circuits-Project/register.vhdl Line: 13
     Info (12023): Found entity 1: reg File: E:/214/Project/Original/Digital-Circuits-Project/register.vhdl Line: 4
-Error (10500): VHDL syntax error at mem.vhdl(4) near text "<";  expecting "entity", or "architecture", or "use", or "library", or "package", or "configuration" File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 4
-Error (10523): Ignored construct mem_blk at mem.vhdl(8) due to previous errors File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 8
-Error (10500): VHDL syntax error at mem.vhdl(21) near text "<";  expecting "begin", or a declaration statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 21
-Error (10500): VHDL syntax error at mem.vhdl(23) near text "=";  expecting "begin", or a declaration statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 23
-Error (10500): VHDL syntax error at mem.vhdl(26) near text ">";  expecting "begin", or a declaration statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 26
-Error (10500): VHDL syntax error at mem.vhdl(36) near text "<";  expecting "end", or "(", or an identifier, or a sequential statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 36
-Error (10500): VHDL syntax error at mem.vhdl(41) near text "=";  expecting "end", or "(", or an identifier, or a sequential statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 41
-Error (10500): VHDL syntax error at mem.vhdl(43) near text ">";  expecting "end", or "(", or an identifier, or a sequential statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 43
-Error (10500): VHDL syntax error at mem.vhdl(53) near text "<";  expecting "end", or "(", or an identifier, or a sequential statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 53
-Error (10500): VHDL syntax error at mem.vhdl(57) near text "=";  expecting "end", or "(", or an identifier, or a sequential statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 57
-Error (10500): VHDL syntax error at mem.vhdl(59) near text ">";  expecting "end", or "(", or an identifier, or a sequential statement File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 59
-Info (12021): Found 0 design units, including 0 entities, in source file mem.vhdl
-Error (10500): VHDL syntax error at IR.vhdl(15) near text ")";  expecting an identifier, or "constant", or "file", or "signal", or "variable" File: E:/214/Project/Original/Digital-Circuits-Project/IR.vhdl Line: 15
-Error (10500): VHDL syntax error at IR.vhdl(21) near text "begin";  expecting an identifier ("begin" is a reserved keyword), or "constant", or "file", or "signal", or "variable" File: E:/214/Project/Original/Digital-Circuits-Project/IR.vhdl Line: 21
+Info (12021): Found 2 design units, including 1 entities, in source file mem.vhdl
+    Info (12022): Found design unit 1: mem_blk-mem_blk_bhv File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 14
+    Info (12023): Found entity 1: mem_blk File: E:/214/Project/Original/Digital-Circuits-Project/mem.vhdl Line: 4
+Error (10500): VHDL syntax error at IR.vhdl(17) near text ")";  expecting an identifier, or "constant", or "file", or "signal", or "variable" File: E:/214/Project/Original/Digital-Circuits-Project/IR.vhdl Line: 17
+Error (10500): VHDL syntax error at IR.vhdl(23) near text "begin";  expecting an identifier ("begin" is a reserved keyword), or "constant", or "file", or "signal", or "variable" File: E:/214/Project/Original/Digital-Circuits-Project/IR.vhdl Line: 23
 Info (12021): Found 0 design units, including 0 entities, in source file ir.vhdl
 Info (12021): Found 2 design units, including 1 entities, in source file alu.vhdl
     Info (12022): Found design unit 1: ALU-a1 File: E:/214/Project/Original/Digital-Circuits-Project/ALU.vhdl Line: 17
@@ -248,10 +239,10 @@ Info (12021): Found 4 design units, including 2 entities, in source file signext
 Info (12021): Found 2 design units, including 1 entities, in source file priorityencoder.vhdl
     Info (12022): Found design unit 1: PEN-PEN_bhv File: E:/214/Project/Original/Digital-Circuits-Project/priorityencoder.vhdl Line: 8
     Info (12023): Found entity 1: PEN File: E:/214/Project/Original/Digital-Circuits-Project/priorityencoder.vhdl Line: 4
-Error: Quartus Prime Analysis & Synthesis was unsuccessful. 27 errors, 1 warning
+Error: Quartus Prime Analysis & Synthesis was unsuccessful. 16 errors, 1 warning
     Error: Peak virtual memory: 4776 megabytes
-    Error: Processing ended: Wed Nov 30 20:52:24 2022
-    Error: Elapsed time: 00:00:11
-    Error: Total CPU time (on all processors): 00:00:11
+    Error: Processing ended: Wed Nov 30 22:44:54 2022
+    Error: Elapsed time: 00:00:08
+    Error: Total CPU time (on all processors): 00:00:05
 
 

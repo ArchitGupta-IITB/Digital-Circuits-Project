@@ -8,7 +8,7 @@ entity RF is
         RF_AD_OUT2 : in std_logic_vector(2 downto 0);
         RF_AD_IN : in std_logic_vector(2 downto 0);
         RF_reset: in std_logic;
-        clk: in std_logic;
+       -- clk: in std_logic;
         -- input data
         RF_DA_IN : in std_logic_vector(15 downto 0);
 

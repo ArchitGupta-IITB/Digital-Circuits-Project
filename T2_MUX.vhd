@@ -18,7 +18,7 @@ entity T2_MUX is
 end T2_MUX;
 
 architecture arch of T2_MUX is    
-    signal T2_IN_TEMP: std_logic_vector(15 downto 0);
+    --signal T2_IN_TEMP: std_logic_vector(15 downto 0);
 begin
     --writing to register when write_enable is set
     MUX: process(S_T2, RF_DA_OUT2, SE16_6)
@@ -27,13 +27,13 @@ begin
         if (T2_EN='1') then
             case S_T2 is
                 when '0' =>
-                T2_IN_TEMP <= RF_DA_OUT2;
+                T2_IN <= RF_DA_OUT2;
                 when '1' =>
-                T2_IN_TEMP <= SE16_6;
+                T2_IN <= SE16_6;
             end case; 
         end if;   
     end process MUX;
-	if (T2_EN='1') then
-        T2_IN <= T2_IN_TEMP;
-    end if; 
+	--if (T2_EN='1') then
+    --    T2_IN <= T2_IN_TEMP;
+   -- end if; 
 end arch;

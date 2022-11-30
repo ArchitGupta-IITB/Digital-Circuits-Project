@@ -19,7 +19,7 @@ component DATAPATH is
         alu_control: in std_logic_vector(1 downto 0);
         
         --IR
-        S_IR: in std_logic;
+        IR_EN07: in std_logic;
         IR_EN: in std_logic;
     
     
@@ -28,6 +28,9 @@ component DATAPATH is
         T1_EN: in std_logic;
         S_T2: in std_logic;
         T2_EN:in std_logic;
+    
+        --LU and PEN
+        lu_en: in std_logic;
     
     
         --RF
@@ -38,18 +41,17 @@ component DATAPATH is
         S_RF_DA_IN: std_logic_vector(1 downto 0);
     
         --MEM
-        S_MEM_DATA: in std_logic;
         S_MEM_ADD: in std_logic_vector(1 downto 0);
-        MEM_RD: in std_logic;
         MEM_WR: in std_logic;
     
         --output signals
-        C:out std_logic;
-        Z: out std_logic;
+        C_o:out std_logic;
+        Z_o: out std_logic;
         Z_flag: out std_logic;
-        opcode_o: out std_logic_vector(3 downto 0);
+        opcode_o: out std_logic_vector(3 downto 0)
         );
     end component DATAPATH;
+    
     
 
 
@@ -80,6 +82,11 @@ state_transition_proc:process(state_present,opcode)
 begin
 case state_present is
     when s1=>
+    RF_WR<='1';
+    alu_control<="00";
+    IR_EN<='1';
+    IR_EN07<='0';
+
     S_RF_AD_OUT1 <= "00";
     S_IR<='0';
     S_RF_AD_IN<="000";
@@ -104,23 +111,33 @@ case state_present is
     end if;
 
     when s2=>
+    T1_EN<='1';
+
     S_RF_AD_OUT1<="01";
     S_T1<="00";
     if(opcode = "0000" or opcode = "0001") then
         state_next<=s3; -- Fill the code here
         S_T2<='0';
+        T2_EN<='1';
     elsif (opcode = "0100" or opcode = "0101") then
         state_next<=s3;
         S_T2<='1';
+        T2<='1';
     elsif(opcode = "0010") then
         state_next<=s5;
         S_T2<='0';
+        T2_EN<='1';
     elsif(opcode = "1100") then
         state_next<=s11;
+        T2_EN<='1';
+        S_T2<='0';
     else
         state_next<=s1;
     end if;
     when s3=>
+    alu_control<="00";
+    T1_EN<='1';
+
     S_ALU_A<='1';
     S_ALU_B<="01";
     S_T1<="01";
@@ -136,11 +153,14 @@ case state_present is
         state_next<=s1;
     end if;
     when s4=>
+        if()
+        RF_WR<=;
         state_next<=s1;
         S_RF_AD_IN<="001"; 
         S_RF_DA_IN<="01";
 
     when s5=>
+        alu_control<="10";
         state_next<=s4;
         S_ALU_A<='1';
         S_ALU_B<="01";
@@ -151,6 +171,7 @@ case state_present is
         S_RF_AD_IN<="010";
         S_RF_DA_IN<="01";
     when s7=>
+        
         state_next<=s8;
         S_T1<="10";    
     when s8=>
